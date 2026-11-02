@@ -13,8 +13,8 @@ services:
     user: "0:0"
 
     ports:
+      - "8020:8020"
       - "9870:9870"
-      - "9000:9000"
 
     environment:
       - HADOOP_HOME=/opt/hadoop
