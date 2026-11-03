@@ -26,6 +26,7 @@ services:
       - ./data:/local-data:ro
       - ./config/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
       - ./config/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./scripts:/scripts:ro
 
     entrypoint: ["/bin/bash", "-c"]
     command:
