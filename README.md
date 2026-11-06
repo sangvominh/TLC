@@ -1,76 +1,60 @@
-# TLC Big Data Project
+# TLC
 
-## 1. Overview
+Yêu cầu: Docker Desktop đang chạy. Đặt file Parquet trong `data/raw/`.
 
-Big Data infrastructure using Docker Compose, Hadoop HDFS and Apache Spark.
-
-**Architecture:**
-- Hadoop NameNode
-- Hadoop DataNode
-- Spark Master
-- Spark Worker
-
-## 2. Requirements
-
-- Docker Desktop
-- Docker Compose
-
-## 3. Start & Stop
-
-Start infrastructure:
+## Chạy
 
 ```powershell
 docker compose up -d
-```
-
-Check containers:
-
-```powershell
 docker compose ps
 ```
 
-Stop infrastructure:
+## Nạp dữ liệu lên HDFS
+
+Thay tên file bên dưới bằng file trong `data/raw/`:
 
 ```powershell
-docker compose down
+docker exec namenode bash /scripts/upload_to_hdfs.sh /local-data/raw/yellow_tripdata_2023-01.parquet /user/tlc/raw
 ```
 
-## 4. Data Ingestion
-
-Upload a Parquet file to HDFS:
+## Kiểm tra Spark
 
 ```powershell
-docker exec namenode bash /scripts/upload_to_hdfs.sh `
-  /local-data/raw/yellow_tripdata_2023-01.parquet `
-  /user/tlc/raw
+docker exec spark-master /opt/spark/bin/spark-submit --master spark://spark-master:7077 /opt/spark/work-dir/test_spark.py
 ```
 
-Check HDFS files:
+## Chạy Phase 2
+
+Sau khi nạp dữ liệu lên HDFS:
+
+```powershell
+docker exec spark-master /opt/spark/bin/spark-submit --master spark://spark-master:7077 /opt/spark/work-dir/phase2_clean.py
+```
+
+Kiểm tra dữ liệu đã làm sạch và báo cáo:
+
+```powershell
+docker exec namenode hdfs dfs -ls /user/tlc/cleaned
+docker exec namenode hdfs dfs -ls /user/tlc/reports
+```
+
+## Kiểm tra và dừng
 
 ```powershell
 docker exec namenode hdfs dfs -ls /user/tlc/raw
+docker exec namenode hdfs dfs -ls /user/tlc/cleaned
+docker compose down
 ```
 
-## 5. Spark Test
+Web UI: NameNode http://localhost:9870 · Spark http://localhost:8080
 
-Run Spark test:
+## Bash
 
-```powershell
-docker exec spark-master /opt/spark/bin/spark-submit `
-  --master spark://spark-master:7077 `
-  /opt/spark/work-dir/test_spark.py
+```bash
+docker compose up -d
+docker exec namenode bash /scripts/upload_to_hdfs.sh /local-data/raw/yellow_tripdata_2023-01.parquet /user/tlc/raw
+docker exec spark-master /opt/spark/bin/spark-submit --master spark://spark-master:7077 /opt/spark/work-dir/phase2_clean.py
+docker exec namenode hdfs dfs -ls /user/tlc/cleaned
+docker exec namenode hdfs dfs -ls /user/tlc/reports
+docker compose down
 ```
-
-The test reads Parquet data from HDFS and displays its schema, sample records and row count.
-
-## 6. Web UI
-
-| Service | URL |
-|---|---|
-| Hadoop NameNode | http://localhost:9870 |
-| Spark Master | http://localhost:8080 |
-| Spark Worker | http://localhost:8081 |
-
-**HDFS path:** `/user/tlc/raw/`
-
-**Note:** Start the infrastructure before running ingestion or Spark tests.
