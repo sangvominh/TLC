@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # Usage:
-# upload_to_hdfs.sh <local_file> <hdfs_directory>
+# ingest_parquet.sh <local_file> <hdfs_directory>
 
 LOCAL_FILE="${1:?Missing local file path}"
 HDFS_DIR="${2:?Missing HDFS destination directory}"

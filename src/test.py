@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 
 spark = (
     SparkSession.builder
-    .appName("TLC-HDFS-Connectivity-Test")
+    .appName("TLC-Test")
     .getOrCreate()
 )
 
@@ -14,6 +14,7 @@ hdfs_path = (
     "user/tlc/raw/yellow_tripdata_2023-01.parquet"
 )
 
+# Thử đọc dữ liệu gốc để kiểm tra kết nối Spark/HDFS.
 df = spark.read.parquet(hdfs_path)
 
 print("\n=== SCHEMA ===")

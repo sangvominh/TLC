@@ -100,7 +100,7 @@ services:
     volumes:
       - ./config:/opt/hadoop-conf:ro
       - ./src:/opt/spark/work-dir
-      - ./data:/data:ro
+      - ./data:/data
 
     command:
       - /opt/spark/bin/spark-class
@@ -138,6 +138,7 @@ services:
 
     volumes:
       - ./config:/opt/hadoop-conf:ro
+      - ./data:/data
 
     command:
       - /opt/spark/bin/spark-class
