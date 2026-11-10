@@ -1,0 +1,1 @@
+{"checked_at_utc":"2026-11-10T14:21:03.6735052Z","state":{"ready":true,"alive_workers":1,"live_datanodes":1,"hdfs_safemode_off":true,"reason":"master=ALIVE, workers=1, datanodes=1, safemode_off=True"}}

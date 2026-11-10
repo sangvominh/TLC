@@ -1,0 +1,8 @@
+{
+    "status":  "failed",
+    "run_id":  "p2v2-202301-20261110T142200438Z-91737d",
+    "month":  "2023-01",
+    "message":  "Cluster not ready within 1 seconds. Last state: Simulated startup HTTP failure. Check Docker containers and http://localhost:8080 / http://localhost:9870.",
+    "local_cleaned_directory":  null,
+    "finished_at_utc":  "2026-11-10T14:22:03.6066173Z"
+}

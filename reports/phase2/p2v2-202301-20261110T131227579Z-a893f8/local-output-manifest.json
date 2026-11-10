@@ -1,0 +1,21 @@
+{
+    "status":  "passed",
+    "run_id":  "p2v2-202301-20261110T131227579Z-a893f8",
+    "policy_version":  "tlc-cleaning-v2",
+    "source_hdfs":  "hdfs://namenode:8020/user/tlc/cleaned/year=2023/month=01/run_id=p2v2-202301-20261110T131227579Z-a893f8",
+    "local_directory":  "C:\\Users\\PC\\bigdata\\data\\cleaned\\year=2023\\month=01\\run_id=p2v2-202301-20261110T131227579Z-a893f8",
+    "parquet_files":  1,
+    "parquet_magic_valid":  true,
+    "files":  [
+                  {
+                      "name":  "part-00000-c30683c9-1fba-4db2-8472-2475754f1505-c000.snappy.parquet",
+                      "bytes":  66897440,
+                      "sha256":  "a6c5f44a8f86d2e0903940d3d8b7be7a049aa26de83503c444cce15c18cea28b"
+                  },
+                  {
+                      "name":  "_SUCCESS",
+                      "bytes":  0,
+                      "sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                  }
+              ]
+}

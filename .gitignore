@@ -1,0 +1,11 @@
+.tools/
+submission/
+__pycache__/
+*.pyc
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/taxi_zone_lookup.csv
+!data/raw/manifest-2023-01.json
+data/cleaned/*
+!data/cleaned/.gitkeep
+logs/*

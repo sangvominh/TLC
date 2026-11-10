@@ -1,0 +1,8 @@
+{
+    "status":  "ready",
+    "run_id":  "p2v2-202301-20261110T142103458Z-1f5566",
+    "month":  "2023-01",
+    "message":  "Readiness checks passed; no cleaning job submitted.",
+    "local_cleaned_directory":  null,
+    "finished_at_utc":  "2026-11-10T14:21:03.6995030Z"
+}
