@@ -102,3 +102,10 @@ Dữ liệu trong HDFS được lưu riêng với thư mục trên máy cá nhâ
 /user/tlc/reports/              # Báo cáo của từng lần chạy
 /user/tlc/reports/latest/       # Báo cáo mới nhất
 ```
+
+## 4. Bàn giao Phase 2 → Phase 3
+
+- `src/clean.py`: làm sạch dữ liệu, tạo Parquet và báo cáo chất lượng.
+- `data/cleaned/`: dữ liệu Parquet đã làm sạch; Phase 3 dùng dữ liệu này.
+- `src/verify.py`: kiểm tra dữ liệu đầu ra của Phase 2.
+- `run.py`: chạy các tác vụ `test`, `clean` và `verify`.
