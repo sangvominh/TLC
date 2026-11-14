@@ -2,13 +2,17 @@ from pyspark.sql import SparkSession, functions as F
 
 spark = SparkSession.builder.appName("TLC-Clean").getOrCreate()
 
+spark.sparkContext.setLogLevel("ERROR")
+
 input_path = "hdfs://namenode:8020/user/tlc/raw/yellow_tripdata_2023-01.parquet"
 output_path = "hdfs://namenode:8020/user/tlc/cleaned/yellow_tripdata_2023-01"
 
 raw = spark.read.parquet(input_path)  #tạo DataFrame raw từ Parquet.
 
+print("Số dòng ban đầu:", raw.count())
 print("Schema dữ liệu thô:")
-raw.printSchema()
+
+#raw.printSchema()
 
 # LỌC THỜI GIAN
 with_duration = raw.withColumn( # Tạo DataFrame mới có thêm cột thời lượng tính bằng phút. 
@@ -69,12 +73,14 @@ clean = (
         F.dayofweek(F.col("tpep_pickup_datetime")).isin(1, 7)
     )
     .drop("trip_speed_mph")
-)
+)   
 print("Schema sau khi làm sạch: ")
 clean.printSchema()
 
-print("Một số dòng sau khi làm sạch: ")
-clean.show(5, truncate=False)
+#print("Một số dòng sau khi làm sạch: ")
+#clean.show(5, truncate=False)
+
+print("Số dòng sau lọc:", clean.count())
 
 clean.write.mode("errorifexists").parquet(output_path)
 
