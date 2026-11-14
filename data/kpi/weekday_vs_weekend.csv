@@ -1,0 +1,3 @@
+day_type,trip_count,day_count,total_revenue,avg_trip_distance,avg_trips_per_day,avg_revenue_per_day
+Weekday,2137329,23,58811063.30,3.378,92927.35,2557002.75
+Weekend,856614,9,23050635.69,3.5158,95179.33,2561181.74
