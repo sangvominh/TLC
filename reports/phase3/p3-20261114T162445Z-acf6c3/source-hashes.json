@@ -1,0 +1,18 @@
+{
+  "files": {
+    "src\\analyze.py": "f2fc1903bcf9fecbed4072684ccc5be139c95171e9153c99f017bd074424b0fa",
+    "tests\\test_analytics.py": "c77c7838a8bb7ace936d622e7fdf6909b1819073b0a40d0933ef04561e338a30",
+    "scripts\\run_phase3.py": "b0e62f09aeddf1a16ef24935a53e3482a3f9e2ec69933b8ac4f48eec28c4a197",
+    "run.py": "93deb49ce1f112e4e5fa11dee131926833454294d262287fcdcdc40af0aafeb1",
+    "src\\sql\\phase3\\01_revenue_by_hour.sql": "e1bdab9193fa1b5db9bb72a0eb728d770c20fa16305b660c1fbbd1afd5173b86",
+    "src\\sql\\phase3\\02_top10_pickup_zones.sql": "bca6b9bc35cf2c42bd9830b6b5a3146485a20e2d169253b9e8f56b6daa636a8b",
+    "src\\sql\\phase3\\03_tip_by_payment.sql": "a9422d021327b239e307f68a0d2d71bf3b94bcfa92f8d32dd27aba15a68bb528",
+    "src\\sql\\phase3\\04_weekday_vs_weekend.sql": "60b02d0e87694b218d836e5298df34f3b10f4883eba4730f8d154224ab51102e",
+    "src\\sql\\phase3\\05_avg_distance_by_zone.sql": "51b9321e07a1d5ead9faf45e0fa5c3d3d09a475f3e99ff483454ee547dd22b3f"
+  },
+  "zones": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+    "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+    "bytes": 12331
+  }
+}

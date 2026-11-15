@@ -1,0 +1,4 @@
+ Container namenode Recreate 
+ Container spark-master Recreate 
+ Container namenode Error response from daemon: the path "C:\\Users\\PC\\bigdata\\scripts" is not shared from the host; add it in Settings > Resources > File Sharing before using it in a container 
+Error response from daemon: the path "C:\\Users\\PC\\bigdata\\scripts" is not shared from the host; add it in Settings > Resources > File Sharing before using it in a container

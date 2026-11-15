@@ -1,0 +1,16 @@
+services:
+  namenode:
+    volumes: !override
+      - hadoop_namenode:/data/dfs/name
+      - main_runtime_data:/local-data:ro
+  datanode:
+    volumes: !override
+      - hadoop_datanode:/data/dfs/data
+  spark-master:
+    volumes: !override
+      - main_runtime_data:/data
+  spark-worker:
+    volumes: !override
+      - main_runtime_data:/data
+volumes:
+  main_runtime_data:

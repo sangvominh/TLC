@@ -1,0 +1,278 @@
+== Physical Plan ==
+AdaptiveSparkPlan (43)
++- == Final Plan ==
+   ResultQueryStage (34)
+   +- * Sort (33)
+      +- AQEShuffleRead (32)
+         +- ShuffleQueryStage (31), Statistics(sizeInBytes=288.0 B, rowCount=2)
+            +- Exchange (30)
+               +- * HashAggregate (29)
+                  +- AQEShuffleRead (28)
+                     +- ShuffleQueryStage (27), Statistics(sizeInBytes=272.0 B, rowCount=2)
+                        +- Exchange (26)
+                           +- * HashAggregate (25)
+                              +- * HashAggregate (24)
+                                 +- AQEShuffleRead (23)
+                                    +- ShuffleQueryStage (22), Statistics(sizeInBytes=4.3 KiB, rowCount=32)
+                                       +- Exchange (21)
+                                          +- * HashAggregate (20)
+                                             +- TableCacheQueryStage (19), Statistics(sizeInBytes=368.4 MiB, rowCount=2.99E+6)
+                                                +- InMemoryTableScan (1)
+                                                      +- InMemoryRelation (2)
+                                                            +- AdaptiveSparkPlan (18)
+                                                            +- == Final Plan ==
+                                                               ResultQueryStage (12)
+                                                               +- * Project (11)
+                                                                  +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                                                     :- * Project (5)
+                                                                     :  +- * ColumnarToRow (4)
+                                                                     :     +- Scan parquet  (3)
+                                                                     +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                                                        +- BroadcastExchange (8)
+                                                                           +- * Filter (7)
+                                                                              +- Scan csv  (6)
+                                                            +- == Initial Plan ==
+                                                               Project (17)
+                                                               +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                                                  :- Project (13)
+                                                                  :  +- Scan parquet  (3)
+                                                                  +- BroadcastExchange (15)
+                                                                     +- Filter (14)
+                                                                        +- Scan csv  (6)
++- == Initial Plan ==
+   Sort (42)
+   +- Exchange (41)
+      +- HashAggregate (40)
+         +- Exchange (39)
+            +- HashAggregate (38)
+               +- HashAggregate (37)
+                  +- Exchange (36)
+                     +- HashAggregate (35)
+                        +- InMemoryTableScan (1)
+                              +- InMemoryRelation (2)
+                                    +- AdaptiveSparkPlan (18)
+                                    +- == Final Plan ==
+                                       ResultQueryStage (12)
+                                       +- * Project (11)
+                                          +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                             :- * Project (5)
+                                             :  +- * ColumnarToRow (4)
+                                             :     +- Scan parquet  (3)
+                                             +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                                +- BroadcastExchange (8)
+                                                   +- * Filter (7)
+                                                      +- Scan csv  (6)
+                                    +- == Initial Plan ==
+                                       Project (17)
+                                       +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                          :- Project (13)
+                                          :  +- Scan parquet  (3)
+                                          +- BroadcastExchange (15)
+                                             +- Filter (14)
+                                                +- Scan csv  (6)
+
+
+(1) InMemoryTableScan
+Output [5]: [total_amount#65, trip_distance#6, trip_duration_min#21, pickup_date#22, is_weekend#24]
+Arguments: [total_amount#65, trip_distance#6, trip_duration_min#21, pickup_date#22, is_weekend#24]
+
+(2) InMemoryRelation
+Arguments: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252], StorageLevel(disk, memory, 1 replicas)
+
+(3) Scan parquet 
+Output [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+Batched: true
+Location: InMemoryFileIndex [hdfs://namenode:8020/user/tlc/cleaned]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,passenger_count:int,trip_distance:double,RatecodeID:int,PULocationID:bigint,payment_type:bigint,fare_amount:double,tip_amount:double,total_amount:double,trip_duration_min:double,pickup_date:date,pickup_hour:int,is_weekend:boolean>
+
+(4) ColumnarToRow [codegen id : 2]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(5) Project [codegen id : 2]
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(6) Scan csv 
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Batched: false
+Location: InMemoryFileIndex [file:/data/reference/taxi_zone_lookup.csv]
+PushedFilters: [IsNotNull(LocationID)]
+ReadSchema: struct<LocationID:int,Borough:string,Zone:string>
+
+(7) Filter [codegen id : 1]
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(8) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=507]
+
+(9) BroadcastQueryStage
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: 0
+
+(10) BroadcastHashJoin [codegen id : 2]
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(11) Project [codegen id : 2]
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(12) ResultQueryStage
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 1
+
+(13) Project
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(14) Filter
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(15) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=475]
+
+(16) BroadcastHashJoin
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(17) Project
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(18) AdaptiveSparkPlan
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: isFinalPlan=true
+
+(19) TableCacheQueryStage
+Output [5]: [total_amount#65, trip_distance#6, trip_duration_min#21, pickup_date#22, is_weekend#24]
+Arguments: 0
+
+(20) HashAggregate [codegen id : 1]
+Input [5]: [total_amount#65, trip_distance#6, trip_duration_min#21, pickup_date#22, is_weekend#24]
+Keys [2]: [is_weekend#24, pickup_date#22]
+Functions [6]: [partial_count(1), partial_sum(total_amount#65), partial_avg(total_amount#65), partial_count(total_amount#65), partial_avg(trip_distance#6), partial_avg(trip_duration_min#21)]
+Aggregate Attributes [6]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842]
+Results [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+
+(21) Exchange
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Arguments: hashpartitioning(is_weekend#24, pickup_date#22, 4), ENSURE_REQUIREMENTS, [plan_id=1080]
+
+(22) ShuffleQueryStage
+Output [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Arguments: 1
+
+(23) AQEShuffleRead
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Arguments: coalesced
+
+(24) HashAggregate [codegen id : 2]
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Keys [2]: [is_weekend#24, pickup_date#22]
+Functions [6]: [merge_count(1), merge_sum(total_amount#65), merge_avg(total_amount#65), merge_count(total_amount#65), merge_avg(trip_distance#6), merge_avg(trip_duration_min#21)]
+Aggregate Attributes [6]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842]
+Results [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+
+(25) HashAggregate [codegen id : 2]
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Keys [1]: [is_weekend#24]
+Functions [7]: [merge_count(1), merge_sum(total_amount#65), merge_avg(total_amount#65), merge_count(total_amount#65), merge_avg(trip_distance#6), merge_avg(trip_duration_min#21), partial_count(distinct pickup_date#22)]
+Aggregate Attributes [7]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842, count(pickup_date#22)#835L]
+Results [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+
+(26) Exchange
+Input [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+Arguments: hashpartitioning(is_weekend#24, 4), ENSURE_REQUIREMENTS, [plan_id=1117]
+
+(27) ShuffleQueryStage
+Output [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+Arguments: 2
+
+(28) AQEShuffleRead
+Input [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+Arguments: coalesced
+
+(29) HashAggregate [codegen id : 3]
+Input [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+Keys [1]: [is_weekend#24]
+Functions [7]: [count(1), sum(total_amount#65), avg(total_amount#65), count(total_amount#65), avg(trip_distance#6), avg(trip_duration_min#21), count(distinct pickup_date#22)]
+Aggregate Attributes [7]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842, count(pickup_date#22)#835L]
+Results [10]: [is_weekend#24, CASE WHEN is_weekend#24 THEN Weekend ELSE Weekday END AS day_type#825, count(1)#834L AS trip_count#826L, count(pickup_date#22)#835L AS observed_days#827L, round(((cast(count(1)#834L as decimal(20,0)) * 1.0) / cast(count(pickup_date#22)#835L as decimal(20,0))), 4) AS trips_per_observed_day#828, sum(total_amount#65)#838 AS recorded_revenue_usd#829, round(avg(total_amount#65)#839, 4) AS avg_recorded_amount_usd#830, count(total_amount#65)#840L AS total_observation_count#831L, round(avg(trip_distance#6)#841, 4) AS avg_distance_miles#832, round(avg(trip_duration_min#21)#842, 4) AS avg_duration_min#833]
+
+(30) Exchange
+Input [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: rangepartitioning(is_weekend#24 ASC NULLS FIRST, 4), ENSURE_REQUIREMENTS, [plan_id=1147]
+
+(31) ShuffleQueryStage
+Output [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: 3
+
+(32) AQEShuffleRead
+Input [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: coalesced
+
+(33) Sort [codegen id : 4]
+Input [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: [is_weekend#24 ASC NULLS FIRST], true, 0
+
+(34) ResultQueryStage
+Output [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: 4
+
+(35) HashAggregate
+Input [5]: [total_amount#65, trip_distance#6, trip_duration_min#21, pickup_date#22, is_weekend#24]
+Keys [2]: [is_weekend#24, pickup_date#22]
+Functions [6]: [partial_count(1), partial_sum(total_amount#65), partial_avg(total_amount#65), partial_count(total_amount#65), partial_avg(trip_distance#6), partial_avg(trip_duration_min#21)]
+Aggregate Attributes [6]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842]
+Results [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+
+(36) Exchange
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Arguments: hashpartitioning(is_weekend#24, pickup_date#22, 4), ENSURE_REQUIREMENTS, [plan_id=1008]
+
+(37) HashAggregate
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Keys [2]: [is_weekend#24, pickup_date#22]
+Functions [6]: [merge_count(1), merge_sum(total_amount#65), merge_avg(total_amount#65), merge_count(total_amount#65), merge_avg(trip_distance#6), merge_avg(trip_duration_min#21)]
+Aggregate Attributes [6]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842]
+Results [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+
+(38) HashAggregate
+Input [12]: [is_weekend#24, pickup_date#22, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L]
+Keys [1]: [is_weekend#24]
+Functions [7]: [merge_count(1), merge_sum(total_amount#65), merge_avg(total_amount#65), merge_count(total_amount#65), merge_avg(trip_distance#6), merge_avg(trip_duration_min#21), partial_count(distinct pickup_date#22)]
+Aggregate Attributes [7]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842, count(pickup_date#22)#835L]
+Results [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+
+(39) Exchange
+Input [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+Arguments: hashpartitioning(is_weekend#24, 4), ENSURE_REQUIREMENTS, [plan_id=1012]
+
+(40) HashAggregate
+Input [12]: [is_weekend#24, count#2489L, sum#2492, isEmpty#2493, sum#2496, count#2497L, count#2499L, sum#2502, count#2503L, sum#2506, count#2507L, count#2510L]
+Keys [1]: [is_weekend#24]
+Functions [7]: [count(1), sum(total_amount#65), avg(total_amount#65), count(total_amount#65), avg(trip_distance#6), avg(trip_duration_min#21), count(distinct pickup_date#22)]
+Aggregate Attributes [7]: [count(1)#834L, sum(total_amount#65)#838, avg(total_amount#65)#839, count(total_amount#65)#840L, avg(trip_distance#6)#841, avg(trip_duration_min#21)#842, count(pickup_date#22)#835L]
+Results [10]: [is_weekend#24, CASE WHEN is_weekend#24 THEN Weekend ELSE Weekday END AS day_type#825, count(1)#834L AS trip_count#826L, count(pickup_date#22)#835L AS observed_days#827L, round(((cast(count(1)#834L as decimal(20,0)) * 1.0) / cast(count(pickup_date#22)#835L as decimal(20,0))), 4) AS trips_per_observed_day#828, sum(total_amount#65)#838 AS recorded_revenue_usd#829, round(avg(total_amount#65)#839, 4) AS avg_recorded_amount_usd#830, count(total_amount#65)#840L AS total_observation_count#831L, round(avg(trip_distance#6)#841, 4) AS avg_distance_miles#832, round(avg(trip_duration_min#21)#842, 4) AS avg_duration_min#833]
+
+(41) Exchange
+Input [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: rangepartitioning(is_weekend#24 ASC NULLS FIRST, 4), ENSURE_REQUIREMENTS, [plan_id=1015]
+
+(42) Sort
+Input [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: [is_weekend#24 ASC NULLS FIRST], true, 0
+
+(43) AdaptiveSparkPlan
+Output [10]: [is_weekend#24, day_type#825, trip_count#826L, observed_days#827L, trips_per_observed_day#828, recorded_revenue_usd#829, avg_recorded_amount_usd#830, total_observation_count#831L, avg_distance_miles#832, avg_duration_min#833]
+Arguments: isFinalPlan=true
+
+

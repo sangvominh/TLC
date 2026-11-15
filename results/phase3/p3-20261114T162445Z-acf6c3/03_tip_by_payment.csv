@@ -1,0 +1,6 @@
+payment_type,trip_count,valid_tip_records,positive_tip_records,recorded_tip_usd,eligible_fare_usd,missing_tip_count,negative_tip_count,payment_label,tip_rate_pct,tipped_trip_pct,interpretation
+0,64139,64136,61102,260083.550000,1358625.120000,0,3,Unknown code: 0,,,not_comparable_to_credit_card_tips
+1,2387617,2387617,2293017,9936935.910000,44137519.210000,0,0,Credit card,22.5136,96.0379,credit_card_tips_recorded
+2,515938,515938,39,176.440000,9549574.860000,0,0,Cash,,,cash_tips_not_recorded
+3,9838,9838,6,19.810000,171811.750000,0,0,No charge,,,not_comparable_to_credit_card_tips
+4,16411,16411,28,359.810000,309348.290000,0,0,Dispute,,,not_comparable_to_credit_card_tips

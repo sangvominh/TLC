@@ -1,0 +1,32 @@
+[
+  {
+    "path": "._SUCCESS.crc",
+    "bytes": 8,
+    "sha256": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d"
+  },
+  {
+    "path": "_SUCCESS",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "pickup_month=1\\.part-00001-7e6b9b47-2b52-47d5-a9a8-c50f8df458d3.c000.snappy.parquet.crc",
+    "bytes": 542332,
+    "sha256": "60248cb32d0715f24c95f019c004aa11066b65f02934ac940ef1657b4435abb3"
+  },
+  {
+    "path": "pickup_month=1\\part-00001-7e6b9b47-2b52-47d5-a9a8-c50f8df458d3.c000.snappy.parquet",
+    "bytes": 69417370,
+    "sha256": "204364c033e8fd4c00b5e4fcc9ead53cf96d9ac83926a9954af8613becdf803e"
+  },
+  {
+    "path": "pickup_month=2\\.part-00001-7e6b9b47-2b52-47d5-a9a8-c50f8df458d3.c000.snappy.parquet.crc",
+    "bytes": 68,
+    "sha256": "d3b9bf5ed7db314f79bf38bbf64f75d015e820a2b2af0f573141b1166e628d4e"
+  },
+  {
+    "path": "pickup_month=2\\part-00001-7e6b9b47-2b52-47d5-a9a8-c50f8df458d3.c000.snappy.parquet",
+    "bytes": 7594,
+    "sha256": "497d00875d254d3538dffc427d1e98e6addb213cdac82145f5704e48c8ebba04"
+  }
+]

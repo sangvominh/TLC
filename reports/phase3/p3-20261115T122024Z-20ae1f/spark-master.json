@@ -1,0 +1,53 @@
+{
+  "url": "spark://spark-master:7077",
+  "workers": [
+    {
+      "id": "worker-20261115122018-spark-worker-7078",
+      "host": "spark-worker",
+      "port": 7078,
+      "webuiaddress": "http://spark-worker:8081",
+      "cores": 3,
+      "coresused": 0,
+      "coresfree": 3,
+      "memory": 3072,
+      "memoryused": 0,
+      "memoryfree": 3072,
+      "resources": {},
+      "resourcesused": {},
+      "resourcesfree": {},
+      "state": "ALIVE",
+      "lastheartbeat": 1794745354227
+    }
+  ],
+  "aliveworkers": 1,
+  "cores": 3,
+  "coresused": 0,
+  "memory": 3072,
+  "memoryused": 0,
+  "resources": [
+    {}
+  ],
+  "resourcesused": [
+    {}
+  ],
+  "activeapps": [],
+  "completedapps": [
+    {
+      "id": "app-20261115122126-0000",
+      "starttime": 1794745286312,
+      "name": "TLC-Phase-3-p3-20261115T122024Z-20ae1f",
+      "cores": 3,
+      "user": "spark",
+      "memoryperexecutor": 1024,
+      "memoryperslave": 1024,
+      "resourcesperexecutor": [],
+      "resourcesperslave": [],
+      "submitdate": "Sun Nov 15 12:21:26 UTC 2026",
+      "state": "FINISHED",
+      "duration": 79904
+    }
+  ],
+  "activedrivers": [],
+  "completeddrivers": [],
+  "status": "ALIVE"
+}

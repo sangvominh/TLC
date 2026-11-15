@@ -1,1 +1,9 @@
 *.sh text eol=lf
+
+# Preserve source and evidence bytes recorded in the verification manifests.
+*.py -text
+*.sql -text
+reports/** -text
+results/** -text
+data/reference/** -text
+.tools/runtime-main-20261114/** -text

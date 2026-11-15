@@ -1,0 +1,246 @@
+== Physical Plan ==
+AdaptiveSparkPlan (39)
++- == Final Plan ==
+   ResultQueryStage (31)
+   +- * Sort (30)
+      +- AQEShuffleRead (29)
+         +- ShuffleQueryStage (28), Statistics(sizeInBytes=2.3 KiB, rowCount=24)
+            +- Exchange (27)
+               +- * Project (26)
+                  +- * HashAggregate (25)
+                     +- AQEShuffleRead (24)
+                        +- ShuffleQueryStage (23), Statistics(sizeInBytes=2.5 KiB, rowCount=25)
+                           +- Exchange (22)
+                              +- * HashAggregate (21)
+                                 +- * Project (20)
+                                    +- TableCacheQueryStage (19), Statistics(sizeInBytes=368.4 MiB, rowCount=2.99E+6)
+                                       +- InMemoryTableScan (1)
+                                             +- InMemoryRelation (2)
+                                                   +- AdaptiveSparkPlan (18)
+                                                   +- == Final Plan ==
+                                                      ResultQueryStage (12)
+                                                      +- * Project (11)
+                                                         +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                                            :- * Project (5)
+                                                            :  +- * ColumnarToRow (4)
+                                                            :     +- Scan parquet  (3)
+                                                            +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                                               +- BroadcastExchange (8)
+                                                                  +- * Filter (7)
+                                                                     +- Scan csv  (6)
+                                                   +- == Initial Plan ==
+                                                      Project (17)
+                                                      +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                                         :- Project (13)
+                                                         :  +- Scan parquet  (3)
+                                                         +- BroadcastExchange (15)
+                                                            +- Filter (14)
+                                                               +- Scan csv  (6)
++- == Initial Plan ==
+   Sort (38)
+   +- Exchange (37)
+      +- Project (36)
+         +- HashAggregate (35)
+            +- Exchange (34)
+               +- HashAggregate (33)
+                  +- Project (32)
+                     +- InMemoryTableScan (1)
+                           +- InMemoryRelation (2)
+                                 +- AdaptiveSparkPlan (18)
+                                 +- == Final Plan ==
+                                    ResultQueryStage (12)
+                                    +- * Project (11)
+                                       +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                          :- * Project (5)
+                                          :  +- * ColumnarToRow (4)
+                                          :     +- Scan parquet  (3)
+                                          +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                             +- BroadcastExchange (8)
+                                                +- * Filter (7)
+                                                   +- Scan csv  (6)
+                                 +- == Initial Plan ==
+                                    Project (17)
+                                    +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                       :- Project (13)
+                                       :  +- Scan parquet  (3)
+                                       +- BroadcastExchange (15)
+                                          +- Filter (14)
+                                             +- Scan csv  (6)
+
+
+(1) InMemoryTableScan
+Output [3]: [fare_amount#64, pickup_hour#23, total_amount#65]
+Arguments: [fare_amount#64, pickup_hour#23, total_amount#65]
+
+(2) InMemoryRelation
+Arguments: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252], StorageLevel(disk, memory, 1 replicas)
+
+(3) Scan parquet 
+Output [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+Batched: true
+Location: InMemoryFileIndex [hdfs://namenode:8020/user/tlc/cleaned]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,passenger_count:int,trip_distance:double,RatecodeID:int,PULocationID:bigint,payment_type:bigint,fare_amount:double,tip_amount:double,total_amount:double,trip_duration_min:double,pickup_date:date,pickup_hour:int,is_weekend:boolean>
+
+(4) ColumnarToRow [codegen id : 2]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(5) Project [codegen id : 2]
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(6) Scan csv 
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Batched: false
+Location: InMemoryFileIndex [file:/data/reference/taxi_zone_lookup.csv]
+PushedFilters: [IsNotNull(LocationID)]
+ReadSchema: struct<LocationID:int,Borough:string,Zone:string>
+
+(7) Filter [codegen id : 1]
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(8) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=507]
+
+(9) BroadcastQueryStage
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: 0
+
+(10) BroadcastHashJoin [codegen id : 2]
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(11) Project [codegen id : 2]
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(12) ResultQueryStage
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 1
+
+(13) Project
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(14) Filter
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(15) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=475]
+
+(16) BroadcastHashJoin
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(17) Project
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(18) AdaptiveSparkPlan
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: isFinalPlan=true
+
+(19) TableCacheQueryStage
+Output [3]: [fare_amount#64, pickup_hour#23, total_amount#65]
+Arguments: 0
+
+(20) Project [codegen id : 1]
+Output [4]: [fare_amount#64, total_amount#65, pickup_hour#23, (total_amount#65 < 0.000000) AS _common_expr_1#1019]
+Input [3]: [fare_amount#64, pickup_hour#23, total_amount#65]
+
+(21) HashAggregate [codegen id : 1]
+Input [4]: [fare_amount#64, total_amount#65, pickup_hour#23, _common_expr_1#1019]
+Keys [1]: [pickup_hour#23]
+Functions [5]: [partial_count(1), partial_sum(total_amount#65), partial_sum(fare_amount#64), partial_count(total_amount#65), partial_count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)]
+Aggregate Attributes [7]: [count#1105L, sum#1106, isEmpty#1107, sum#1108, isEmpty#1109, count#1110L, count#1111L]
+Results [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+
+(22) Exchange
+Input [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+Arguments: hashpartitioning(pickup_hour#23, 4), ENSURE_REQUIREMENTS, [plan_id=654]
+
+(23) ShuffleQueryStage
+Output [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+Arguments: 1
+
+(24) AQEShuffleRead
+Input [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+Arguments: coalesced
+
+(25) HashAggregate [codegen id : 2]
+Input [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+Keys [1]: [pickup_hour#23]
+Functions [5]: [count(1), sum(total_amount#65), sum(fare_amount#64), count(total_amount#65), count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)]
+Aggregate Attributes [5]: [count(1)#795L, sum(total_amount#65)#796, sum(fare_amount#64)#797, count(total_amount#65)#798L, count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)#801L]
+Results [6]: [pickup_hour#23, count(1)#795L AS _aggregateexpression#795L, sum(total_amount#65)#796 AS _aggregateexpression#796, sum(fare_amount#64)#797 AS _aggregateexpression#797, count(total_amount#65)#798L AS _aggregateexpression#798L, count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)#801L AS _aggregateexpression#801L]
+
+(26) Project [codegen id : 2]
+Output [7]: [pickup_hour#23, _aggregateexpression#795L AS trip_count#789L, _aggregateexpression#796 AS recorded_revenue_usd#790, _aggregateexpression#797 AS metered_fare_usd#791, _aggregateexpression#798L AS total_observation_count#792L, (_aggregateexpression#795L - _aggregateexpression#798L) AS missing_total_count#793L, _aggregateexpression#801L AS negative_total_count#794L]
+Input [6]: [pickup_hour#23, _aggregateexpression#795L, _aggregateexpression#796, _aggregateexpression#797, _aggregateexpression#798L, _aggregateexpression#801L]
+
+(27) Exchange
+Input [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: rangepartitioning(pickup_hour#23 ASC NULLS FIRST, 4), ENSURE_REQUIREMENTS, [plan_id=690]
+
+(28) ShuffleQueryStage
+Output [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: 2
+
+(29) AQEShuffleRead
+Input [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: coalesced
+
+(30) Sort [codegen id : 3]
+Input [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: [pickup_hour#23 ASC NULLS FIRST], true, 0
+
+(31) ResultQueryStage
+Output [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: 3
+
+(32) Project
+Output [4]: [fare_amount#64, total_amount#65, pickup_hour#23, (total_amount#65 < 0.000000) AS _common_expr_1#1019]
+Input [3]: [fare_amount#64, pickup_hour#23, total_amount#65]
+
+(33) HashAggregate
+Input [4]: [fare_amount#64, total_amount#65, pickup_hour#23, _common_expr_1#1019]
+Keys [1]: [pickup_hour#23]
+Functions [5]: [partial_count(1), partial_sum(total_amount#65), partial_sum(fare_amount#64), partial_count(total_amount#65), partial_count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)]
+Aggregate Attributes [7]: [count#1105L, sum#1106, isEmpty#1107, sum#1108, isEmpty#1109, count#1110L, count#1111L]
+Results [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+
+(34) Exchange
+Input [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+Arguments: hashpartitioning(pickup_hour#23, 4), ENSURE_REQUIREMENTS, [plan_id=593]
+
+(35) HashAggregate
+Input [8]: [pickup_hour#23, count#1112L, sum#1113, isEmpty#1114, sum#1115, isEmpty#1116, count#1117L, count#1118L]
+Keys [1]: [pickup_hour#23]
+Functions [5]: [count(1), sum(total_amount#65), sum(fare_amount#64), count(total_amount#65), count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)]
+Aggregate Attributes [5]: [count(1)#795L, sum(total_amount#65)#796, sum(fare_amount#64)#797, count(total_amount#65)#798L, count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)#801L]
+Results [6]: [pickup_hour#23, count(1)#795L AS _aggregateexpression#795L, sum(total_amount#65)#796 AS _aggregateexpression#796, sum(fare_amount#64)#797 AS _aggregateexpression#797, count(total_amount#65)#798L AS _aggregateexpression#798L, count(if (NOT _common_expr_1#1019) null else _common_expr_1#1019)#801L AS _aggregateexpression#801L]
+
+(36) Project
+Output [7]: [pickup_hour#23, _aggregateexpression#795L AS trip_count#789L, _aggregateexpression#796 AS recorded_revenue_usd#790, _aggregateexpression#797 AS metered_fare_usd#791, _aggregateexpression#798L AS total_observation_count#792L, (_aggregateexpression#795L - _aggregateexpression#798L) AS missing_total_count#793L, _aggregateexpression#801L AS negative_total_count#794L]
+Input [6]: [pickup_hour#23, _aggregateexpression#795L, _aggregateexpression#796, _aggregateexpression#797, _aggregateexpression#798L, _aggregateexpression#801L]
+
+(37) Exchange
+Input [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: rangepartitioning(pickup_hour#23 ASC NULLS FIRST, 4), ENSURE_REQUIREMENTS, [plan_id=597]
+
+(38) Sort
+Input [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: [pickup_hour#23 ASC NULLS FIRST], true, 0
+
+(39) AdaptiveSparkPlan
+Output [7]: [pickup_hour#23, trip_count#789L, recorded_revenue_usd#790, metered_fare_usd#791, total_observation_count#792L, missing_total_count#793L, negative_total_count#794L]
+Arguments: isFinalPlan=true
+
+

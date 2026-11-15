@@ -1,0 +1,22 @@
+﻿[
+    {
+        "Path":  "C:\\Users\\PC\\bigdata\\src\\clean.py",
+        "Hash":  "CBF3C4CAF3D18F1E711095C8E678CACB81E2ABC3490E307CD6A075B2060F390D"
+    },
+    {
+        "Path":  "C:\\Users\\PC\\bigdata\\src\\verify.py",
+        "Hash":  "FCD335C77559A3E93E21FE00B6BDA9E192EABEDFEEDE2C6141B07D1F39503268"
+    },
+    {
+        "Path":  "C:\\Users\\PC\\bigdata\\run.py",
+        "Hash":  "884BD5EECCD6D778DECE9BD5C8DAF04B3E1816E80CD95E0E52FAAB65E6147314"
+    },
+    {
+        "Path":  "C:\\Users\\PC\\bigdata\\docker-compose.yml",
+        "Hash":  "3D79C53487A4F2C3DE1113FC2971BC8DE53BC4D88C015143888C9F3D30BD9104"
+    },
+    {
+        "Path":  "C:\\Users\\PC\\bigdata\\data\\raw\\yellow_tripdata_2023-01.parquet",
+        "Hash":  "32DF6F67578FA86C484A6B5EF23A5281992FF085521082340B0F9E5889E9A572"
+    }
+]

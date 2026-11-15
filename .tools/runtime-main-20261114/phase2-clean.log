@@ -1,0 +1,80 @@
+WARNING: Using incubator modules: jdk.incubator.vector
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/11/14 11:36:06 INFO SparkContext: Running Spark version 4.1.4
+26/11/14 11:36:06 INFO SparkContext: OS info Linux, 7.0.14-linuxkit, amd64
+26/11/14 11:36:06 INFO SparkContext: Java version 17.0.20.1+1
+26/11/14 11:36:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/11/14 11:36:07 INFO ResourceUtils: ==============================================================
+26/11/14 11:36:07 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/11/14 11:36:07 INFO ResourceUtils: ==============================================================
+26/11/14 11:36:07 INFO SparkContext: Submitted application: TLC-Phase-2-Transformation
+26/11/14 11:36:07 INFO SecurityManager: Changing view acls to: spark
+26/11/14 11:36:07 INFO SecurityManager: Changing modify acls to: spark
+26/11/14 11:36:07 INFO SecurityManager: Changing view acls groups to: spark
+26/11/14 11:36:07 INFO SecurityManager: Changing modify acls groups to: spark
+26/11/14 11:36:07 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/11/14 11:36:08 INFO Utils: Successfully started service 'sparkDriver' on port 37317.
+26/11/14 11:36:08 INFO SparkEnv: Registering MapOutputTracker
+26/11/14 11:36:08 INFO SparkEnv: Registering BlockManagerMaster
+26/11/14 11:36:08 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/11/14 11:36:08 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/11/14 11:36:08 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/11/14 11:36:08 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-4dc8e0c2-31cc-4927-a281-b6e5879eda14
+26/11/14 11:36:08 INFO SparkEnv: Registering OutputCommitCoordinator
+26/11/14 11:36:09 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/11/14 11:36:09 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/11/14 11:36:09 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/14 11:36:09 INFO ResourceProfile: Limiting resource is cpu
+26/11/14 11:36:09 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/11/14 11:36:09 INFO SecurityManager: Changing view acls to: spark
+26/11/14 11:36:09 INFO SecurityManager: Changing modify acls to: spark
+26/11/14 11:36:09 INFO SecurityManager: Changing view acls groups to: spark
+26/11/14 11:36:09 INFO SecurityManager: Changing modify acls groups to: spark
+26/11/14 11:36:09 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/11/14 11:36:10 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/11/14 11:36:10 INFO TransportClientFactory: Successfully created connection to spark-master/172.22.0.2:7077 after 93 ms (0 ms spent in bootstraps)
+26/11/14 11:36:10 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261114113610-0001
+26/11/14 11:36:10 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261114113610-0001/0 on worker-20261114113220-spark-worker-7078 (spark-worker:7078) with 3 core(s)
+26/11/14 11:36:10 INFO StandaloneSchedulerBackend: Granted executor ID app-20261114113610-0001/0 on hostPort spark-worker:7078 with 3 core(s), 1024.0 MiB RAM
+26/11/14 11:36:10 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 38423.
+26/11/14 11:36:10 INFO NettyBlockTransferService: Server created on spark-master:38423
+26/11/14 11:36:10 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/11/14 11:36:10 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261114113610-0001/0 is now RUNNING
+26/11/14 11:36:10 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 38423, None)
+26/11/14 11:36:10 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:38423 with 413.9 MiB RAM, BlockManagerId(driver, spark-master, 38423, None)
+26/11/14 11:36:10 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 38423, None)
+26/11/14 11:36:10 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 38423, None)
+26/11/14 11:36:11 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/11/14 11:36:13 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.22.0.4:55308) with ID 0, ResourceProfileId 0
+26/11/14 11:36:13 INFO BlockManagerMasterEndpoint: Registering block manager spark-worker:41375 with 434.4 MiB RAM, BlockManagerId(0, spark-worker, 41375, None)
+Đang chạy Phase 2....
+
+========== XỬ LÝ HOÀN TẤT ==========
+Quá trình lọc:
+Bước 1: Giữ dòng thỏa dropoff > pickup
+  Đầu vào: 3,066,766 | Loại: 1,121 | Còn lại: 3,065,645
+Bước 2: Giữ dòng thỏa 0 < trip_duration_min <= 360
+  Đầu vào: 3,065,645 | Loại: 2,837 | Còn lại: 3,062,808
+Bước 3: Giữ dòng thỏa pickup_year = 2023
+  Đầu vào: 3,062,808 | Loại: 36 | Còn lại: 3,062,772
+Bước 4: Giữ dòng thỏa 0 < trip_distance <= 100
+  Đầu vào: 3,062,772 | Loại: 44,857 | Còn lại: 3,017,915
+Bước 5: Giữ dòng thỏa speed_mph <= 80
+  Đầu vào: 3,017,915 | Loại: 1,546 | Còn lại: 3,016,369
+Bước 6: Giữ dòng thỏa fare_amount > 0
+  Đầu vào: 3,016,369 | Loại: 22,426 | Còn lại: 2,993,943
+Bước 7: Giữ dòng thỏa PULocationID is not null
+  Đầu vào: 2,993,943 | Loại: 0 | Còn lại: 2,993,943
+Bước 8: Giữ dòng thỏa DOLocationID is not null
+  Đầu vào: 2,993,943 | Loại: 0 | Còn lại: 2,993,943
+Số dòng đầu vào: 3,066,766
+Số dòng đầu ra: 2,993,943
+Tổng dòng bị loại: 72,823
+Số khách chuyển thành null (giữ lại chuyến): 49,797
+Phân vùng: pickup_month
+Kiểm chứng Parquet: ĐẠT — 0 dòng vi phạm các quy tắc.
+Số chuyến giữ mã RatecodeID = 99: 11,195
+Dữ liệu sạch: hdfs://namenode:8020/user/tlc/cleaned/
+Dữ liệu trên máy: data/cleaned/ (Parquet)
+Báo cáo: hdfs://namenode:8020/user/tlc/reports/phase2_quality_20261114T113753710731Z
+Báo cáo mới nhất: hdfs://namenode:8020/user/tlc/reports/latest

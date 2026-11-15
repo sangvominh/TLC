@@ -1,0 +1,226 @@
+== Physical Plan ==
+AdaptiveSparkPlan (35)
++- == Final Plan ==
+   ResultQueryStage (29)
+   +- * Sort (28)
+      +- AQEShuffleRead (27)
+         +- ShuffleQueryStage (26), Statistics(sizeInBytes=25.3 KiB, rowCount=255)
+            +- Exchange (25)
+               +- * HashAggregate (24)
+                  +- AQEShuffleRead (23)
+                     +- ShuffleQueryStage (22), Statistics(sizeInBytes=28.1 KiB, rowCount=263)
+                        +- Exchange (21)
+                           +- * HashAggregate (20)
+                              +- TableCacheQueryStage (19), Statistics(sizeInBytes=368.4 MiB, rowCount=2.99E+6)
+                                 +- InMemoryTableScan (1)
+                                       +- InMemoryRelation (2)
+                                             +- AdaptiveSparkPlan (18)
+                                             +- == Final Plan ==
+                                                ResultQueryStage (12)
+                                                +- * Project (11)
+                                                   +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                                      :- * Project (5)
+                                                      :  +- * ColumnarToRow (4)
+                                                      :     +- Scan parquet  (3)
+                                                      +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                                         +- BroadcastExchange (8)
+                                                            +- * Filter (7)
+                                                               +- Scan csv  (6)
+                                             +- == Initial Plan ==
+                                                Project (17)
+                                                +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                                   :- Project (13)
+                                                   :  +- Scan parquet  (3)
+                                                   +- BroadcastExchange (15)
+                                                      +- Filter (14)
+                                                         +- Scan csv  (6)
++- == Initial Plan ==
+   Sort (34)
+   +- Exchange (33)
+      +- HashAggregate (32)
+         +- Exchange (31)
+            +- HashAggregate (30)
+               +- InMemoryTableScan (1)
+                     +- InMemoryRelation (2)
+                           +- AdaptiveSparkPlan (18)
+                           +- == Final Plan ==
+                              ResultQueryStage (12)
+                              +- * Project (11)
+                                 +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                    :- * Project (5)
+                                    :  +- * ColumnarToRow (4)
+                                    :     +- Scan parquet  (3)
+                                    +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                       +- BroadcastExchange (8)
+                                          +- * Filter (7)
+                                             +- Scan csv  (6)
+                           +- == Initial Plan ==
+                              Project (17)
+                              +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                 :- Project (13)
+                                 :  +- Scan parquet  (3)
+                                 +- BroadcastExchange (15)
+                                    +- Filter (14)
+                                       +- Scan csv  (6)
+
+
+(1) InMemoryTableScan
+Output [5]: [PULocationID#9L, trip_distance#6, Borough#253, Zone#254, zone_match_status#252]
+Arguments: [PULocationID#9L, trip_distance#6, Borough#253, Zone#254, zone_match_status#252]
+
+(2) InMemoryRelation
+Arguments: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252], StorageLevel(disk, memory, 1 replicas)
+
+(3) Scan parquet 
+Output [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+Batched: true
+Location: InMemoryFileIndex [hdfs://namenode:8020/user/tlc/cleaned]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,passenger_count:int,trip_distance:double,RatecodeID:int,PULocationID:bigint,payment_type:bigint,fare_amount:double,tip_amount:double,total_amount:double,trip_duration_min:double,pickup_date:date,pickup_hour:int,is_weekend:boolean>
+
+(4) ColumnarToRow [codegen id : 2]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(5) Project [codegen id : 2]
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(6) Scan csv 
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Batched: false
+Location: InMemoryFileIndex [file:/data/reference/taxi_zone_lookup.csv]
+PushedFilters: [IsNotNull(LocationID)]
+ReadSchema: struct<LocationID:int,Borough:string,Zone:string>
+
+(7) Filter [codegen id : 1]
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(8) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=507]
+
+(9) BroadcastQueryStage
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: 0
+
+(10) BroadcastHashJoin [codegen id : 2]
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(11) Project [codegen id : 2]
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(12) ResultQueryStage
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 1
+
+(13) Project
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(14) Filter
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(15) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=475]
+
+(16) BroadcastHashJoin
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(17) Project
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(18) AdaptiveSparkPlan
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: isFinalPlan=true
+
+(19) TableCacheQueryStage
+Output [5]: [PULocationID#9L, trip_distance#6, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 0
+
+(20) HashAggregate [codegen id : 1]
+Input [5]: [PULocationID#9L, trip_distance#6, Borough#253, Zone#254, zone_match_status#252]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [3]: [partial_count(1), partial_avg(trip_distance#6), partial_sum(trip_distance#6)]
+Aggregate Attributes [4]: [count#3082L, sum#3083, count#3084L, sum#3085]
+Results [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+
+(21) Exchange
+Input [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+Arguments: hashpartitioning(PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, 4), ENSURE_REQUIREMENTS, [plan_id=1227]
+
+(22) ShuffleQueryStage
+Output [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+Arguments: 1
+
+(23) AQEShuffleRead
+Input [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+Arguments: coalesced
+
+(24) HashAggregate [codegen id : 2]
+Input [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [3]: [count(1), avg(trip_distance#6), sum(trip_distance#6)]
+Aggregate Attributes [3]: [count(1)#846L, avg(trip_distance#6)#847, sum(trip_distance#6)#848]
+Results [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count(1)#846L AS trip_count#843L, round(avg(trip_distance#6)#847, 4) AS avg_distance_miles#844, sum(trip_distance#6)#848 AS total_distance_miles#845]
+
+(25) Exchange
+Input [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: rangepartitioning(PULocationID#9L ASC NULLS FIRST, 4), ENSURE_REQUIREMENTS, [plan_id=1253]
+
+(26) ShuffleQueryStage
+Output [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: 2
+
+(27) AQEShuffleRead
+Input [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: coalesced
+
+(28) Sort [codegen id : 3]
+Input [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: [PULocationID#9L ASC NULLS FIRST], true, 0
+
+(29) ResultQueryStage
+Output [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: 3
+
+(30) HashAggregate
+Input [5]: [PULocationID#9L, trip_distance#6, Borough#253, Zone#254, zone_match_status#252]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [3]: [partial_count(1), partial_avg(trip_distance#6), partial_sum(trip_distance#6)]
+Aggregate Attributes [4]: [count#3082L, sum#3083, count#3084L, sum#3085]
+Results [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+
+(31) Exchange
+Input [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+Arguments: hashpartitioning(PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, 4), ENSURE_REQUIREMENTS, [plan_id=1182]
+
+(32) HashAggregate
+Input [8]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#3086L, sum#3087, count#3088L, sum#3089]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [3]: [count(1), avg(trip_distance#6), sum(trip_distance#6)]
+Aggregate Attributes [3]: [count(1)#846L, avg(trip_distance#6)#847, sum(trip_distance#6)#848]
+Results [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count(1)#846L AS trip_count#843L, round(avg(trip_distance#6)#847, 4) AS avg_distance_miles#844, sum(trip_distance#6)#848 AS total_distance_miles#845]
+
+(33) Exchange
+Input [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: rangepartitioning(PULocationID#9L ASC NULLS FIRST, 4), ENSURE_REQUIREMENTS, [plan_id=1185]
+
+(34) Sort
+Input [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: [PULocationID#9L ASC NULLS FIRST], true, 0
+
+(35) AdaptiveSparkPlan
+Output [7]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#843L, avg_distance_miles#844, total_distance_miles#845]
+Arguments: isFinalPlan=true
+
+

@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "run_id": "p3-20261114T162445Z-acf6c3",
+  "input_rows": 2993943,
+  "tests_run": true,
+  "timings": {
+    "docker-info": {
+      "seconds": 0.197,
+      "exit_code": 0
+    },
+    "readiness": {
+      "seconds": 0.113,
+      "exit_code": 0
+    },
+    "prepare-dirs": {
+      "seconds": 0.082,
+      "exit_code": 0
+    },
+    "copy-0": {
+      "seconds": 0.05,
+      "exit_code": 0
+    },
+    "copy-1": {
+      "seconds": 0.045,
+      "exit_code": 0
+    },
+    "copy-2": {
+      "seconds": 0.043,
+      "exit_code": 0
+    },
+    "copy-3": {
+      "seconds": 0.044,
+      "exit_code": 0
+    },
+    "output-permissions": {
+      "seconds": 0.09,
+      "exit_code": 0
+    },
+    "synthetic-tests": {
+      "seconds": 82.747,
+      "exit_code": 0
+    },
+    "spark-analysis": {
+      "seconds": 76.172,
+      "exit_code": 0
+    },
+    "export-reports": {
+      "seconds": 0.044,
+      "exit_code": 0
+    },
+    "export-01_revenue_by_hour": {
+      "seconds": 0.044,
+      "exit_code": 0
+    },
+    "export-02_top10_pickup_zones": {
+      "seconds": 0.039,
+      "exit_code": 0
+    },
+    "export-03_tip_by_payment": {
+      "seconds": 0.039,
+      "exit_code": 0
+    },
+    "export-04_weekday_vs_weekend": {
+      "seconds": 0.04,
+      "exit_code": 0
+    },
+    "export-05_avg_distance_by_zone": {
+      "seconds": 0.041,
+      "exit_code": 0
+    },
+    "spark-master": {
+      "seconds": 0.173,
+      "exit_code": 0
+    }
+  },
+  "elapsed_seconds": 199.556,
+  "results": "results\\phase3\\p3-20261114T162445Z-acf6c3",
+  "reports": "reports\\phase3\\p3-20261114T162445Z-acf6c3",
+  "source_phase2_generated_at": "2026-11-14T11:37:53.611869+00:00"
+}

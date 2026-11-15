@@ -1,0 +1,241 @@
+== Physical Plan ==
+AdaptiveSparkPlan (38)
++- == Final Plan ==
+   ResultQueryStage (30)
+   +- TakeOrderedAndProject (29)
+      +- * Project (28)
+         +- Window (27)
+            +- ShuffleQueryStage (26), Statistics(sizeInBytes=21.3 KiB, rowCount=255)
+               +- Exchange (25)
+                  +- * HashAggregate (24)
+                     +- AQEShuffleRead (23)
+                        +- ShuffleQueryStage (22), Statistics(sizeInBytes=22.0 KiB, rowCount=263)
+                           +- Exchange (21)
+                              +- * HashAggregate (20)
+                                 +- TableCacheQueryStage (19), Statistics(sizeInBytes=368.4 MiB, rowCount=2.99E+6)
+                                    +- InMemoryTableScan (1)
+                                          +- InMemoryRelation (2)
+                                                +- AdaptiveSparkPlan (18)
+                                                +- == Final Plan ==
+                                                   ResultQueryStage (12)
+                                                   +- * Project (11)
+                                                      +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                                         :- * Project (5)
+                                                         :  +- * ColumnarToRow (4)
+                                                         :     +- Scan parquet  (3)
+                                                         +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                                            +- BroadcastExchange (8)
+                                                               +- * Filter (7)
+                                                                  +- Scan csv  (6)
+                                                +- == Initial Plan ==
+                                                   Project (17)
+                                                   +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                                      :- Project (13)
+                                                      :  +- Scan parquet  (3)
+                                                      +- BroadcastExchange (15)
+                                                         +- Filter (14)
+                                                            +- Scan csv  (6)
++- == Initial Plan ==
+   TakeOrderedAndProject (37)
+   +- Project (36)
+      +- Window (35)
+         +- Exchange (34)
+            +- HashAggregate (33)
+               +- Exchange (32)
+                  +- HashAggregate (31)
+                     +- InMemoryTableScan (1)
+                           +- InMemoryRelation (2)
+                                 +- AdaptiveSparkPlan (18)
+                                 +- == Final Plan ==
+                                    ResultQueryStage (12)
+                                    +- * Project (11)
+                                       +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                          :- * Project (5)
+                                          :  +- * ColumnarToRow (4)
+                                          :     +- Scan parquet  (3)
+                                          +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                             +- BroadcastExchange (8)
+                                                +- * Filter (7)
+                                                   +- Scan csv  (6)
+                                 +- == Initial Plan ==
+                                    Project (17)
+                                    +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                       :- Project (13)
+                                       :  +- Scan parquet  (3)
+                                       +- BroadcastExchange (15)
+                                          +- Filter (14)
+                                             +- Scan csv  (6)
+
+
+(1) InMemoryTableScan
+Output [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Arguments: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+
+(2) InMemoryRelation
+Arguments: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252], StorageLevel(disk, memory, 1 replicas)
+
+(3) Scan parquet 
+Output [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+Batched: true
+Location: InMemoryFileIndex [hdfs://namenode:8020/user/tlc/cleaned]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,passenger_count:int,trip_distance:double,RatecodeID:int,PULocationID:bigint,payment_type:bigint,fare_amount:double,tip_amount:double,total_amount:double,trip_duration_min:double,pickup_date:date,pickup_hour:int,is_weekend:boolean>
+
+(4) ColumnarToRow [codegen id : 2]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(5) Project [codegen id : 2]
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(6) Scan csv 
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Batched: false
+Location: InMemoryFileIndex [file:/data/reference/taxi_zone_lookup.csv]
+PushedFilters: [IsNotNull(LocationID)]
+ReadSchema: struct<LocationID:int,Borough:string,Zone:string>
+
+(7) Filter [codegen id : 1]
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(8) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=507]
+
+(9) BroadcastQueryStage
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: 0
+
+(10) BroadcastHashJoin [codegen id : 2]
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(11) Project [codegen id : 2]
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(12) ResultQueryStage
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 1
+
+(13) Project
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(14) Filter
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(15) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=475]
+
+(16) BroadcastHashJoin
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(17) Project
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(18) AdaptiveSparkPlan
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: isFinalPlan=true
+
+(19) TableCacheQueryStage
+Output [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 0
+
+(20) HashAggregate [codegen id : 1]
+Input [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [1]: [partial_count(1)]
+Aggregate Attributes [1]: [count#1574L]
+Results [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+
+(21) Exchange
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+Arguments: hashpartitioning(PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, 4), ENSURE_REQUIREMENTS, [plan_id=788]
+
+(22) ShuffleQueryStage
+Output [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+Arguments: 1
+
+(23) AQEShuffleRead
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+Arguments: coalesced
+
+(24) HashAggregate [codegen id : 2]
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [1]: [count(1)]
+Aggregate Attributes [1]: [count(1)#804L]
+Results [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count(1)#804L AS trip_count#803L]
+
+(25) Exchange
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=822]
+
+(26) ShuffleQueryStage
+Output [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L]
+Arguments: 2
+
+(27) Window
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L]
+Arguments: [sum(trip_count#803L) windowspecdefinition(specifiedwindowframe(RowFrame, unboundedpreceding$(), unboundedfollowing$())) AS _we0#806L]
+
+(28) Project [codegen id : 3]
+Output [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, round(((100.0 * cast(trip_count#803L as decimal(20,0))) / cast(_we0#806L as decimal(20,0))), 4) AS trip_share_pct#802]
+Input [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, _we0#806L]
+
+(29) TakeOrderedAndProject
+Input [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, trip_share_pct#802]
+Arguments: 10, [trip_count#803L DESC NULLS LAST, PULocationID#9L ASC NULLS FIRST], [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, trip_share_pct#802]
+
+(30) ResultQueryStage
+Output [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, trip_share_pct#802]
+Arguments: 3
+
+(31) HashAggregate
+Input [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [1]: [partial_count(1)]
+Aggregate Attributes [1]: [count#1574L]
+Results [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+
+(32) Exchange
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+Arguments: hashpartitioning(PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, 4), ENSURE_REQUIREMENTS, [plan_id=734]
+
+(33) HashAggregate
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count#1575L]
+Keys [4]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252]
+Functions [1]: [count(1)]
+Aggregate Attributes [1]: [count(1)#804L]
+Results [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, count(1)#804L AS trip_count#803L]
+
+(34) Exchange
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=737]
+
+(35) Window
+Input [5]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L]
+Arguments: [sum(trip_count#803L) windowspecdefinition(specifiedwindowframe(RowFrame, unboundedpreceding$(), unboundedfollowing$())) AS _we0#806L]
+
+(36) Project
+Output [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, round(((100.0 * cast(trip_count#803L as decimal(20,0))) / cast(_we0#806L as decimal(20,0))), 4) AS trip_share_pct#802]
+Input [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, _we0#806L]
+
+(37) TakeOrderedAndProject
+Input [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, trip_share_pct#802]
+Arguments: 10, [trip_count#803L DESC NULLS LAST, PULocationID#9L ASC NULLS FIRST], [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, trip_share_pct#802]
+
+(38) AdaptiveSparkPlan
+Output [6]: [PULocationID#9L, Borough#253, Zone#254, zone_match_status#252, trip_count#803L, trip_share_pct#802]
+Arguments: isFinalPlan=true
+
+

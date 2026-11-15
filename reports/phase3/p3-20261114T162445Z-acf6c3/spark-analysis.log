@@ -1,0 +1,71 @@
+PROFILE: {"input_rows": 2993943, "invalid_contract_rows": 0, "min_pickup_date": "2023-01-01", "max_pickup_date": "2023-02-01", "observed_days": 32, "null_passenger_rows": 113936, "ratecode_99_rows": 11195, "recorded_revenue_usd": "81861698.990000", "total_observation_count": 2993943, "negative_total_rows": 0, "missing_or_invalid_tip_rows": 0, "negative_tip_rows": 3, "months": [{"pickup_month": 1, "count": 2993933}, {"pickup_month": 2, "count": 10}], "lookup_rows": 265, "zone_matches": [{"zone_match_status": "matched", "count": 2955627}, {"zone_match_status": "unknown_or_outside", "count": 38316}]}
+PHASE 3 PASSED: {"run_id": "p3-20261114T162445Z-acf6c3", "rows": 2993943, "outputs": [{"filename": "01_revenue_by_hour.csv", "rows": 24, "columns": ["pickup_hour", "trip_count", "recorded_revenue_usd", "metered_fare_usd", "total_observation_count", "missing_total_count", "negative_total_count"]}, {"filename": "02_top10_pickup_zones.csv", "rows": 10, "columns": ["PULocationID", "Borough", "Zone", "zone_match_status", "trip_count", "trip_share_pct"]}, {"filename": "03_tip_by_payment.csv", "rows": 5, "columns": ["payment_type", "trip_count", "valid_tip_records", "positive_tip_records", "recorded_tip_usd", "eligible_fare_usd", "missing_tip_count", "negative_tip_count", "payment_label", "tip_rate_pct", "tipped_trip_pct", "interpretation"]}, {"filename": "04_weekday_vs_weekend.csv", "rows": 2, "columns": ["is_weekend", "day_type", "trip_count", "observed_days", "trips_per_observed_day", "recorded_revenue_usd", "avg_recorded_amount_usd", "total_observation_count", "avg_distance_miles", "avg_duration_min"]}, {"filename": "05_avg_distance_by_zone.csv", "rows": 255, "columns": ["PULocationID", "Borough", "Zone", "zone_match_status", "trip_count", "avg_distance_miles", "total_distance_miles"]}]}
+
+STDERR:
+WARNING: Using incubator modules: jdk.incubator.vector
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/11/14 16:26:55 INFO SparkContext: Running Spark version 4.1.4
+26/11/14 16:26:55 INFO SparkContext: OS info Linux, 7.0.14-linuxkit, amd64
+26/11/14 16:26:55 INFO SparkContext: Java version 17.0.20.1+1
+26/11/14 16:26:55 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/11/14 16:26:55 INFO ResourceUtils: ==============================================================
+26/11/14 16:26:55 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/11/14 16:26:55 INFO ResourceUtils: ==============================================================
+26/11/14 16:26:55 INFO SparkContext: Submitted application: TLC-Phase-3-p3-20261114T162445Z-acf6c3
+26/11/14 16:26:55 INFO SecurityManager: Changing view acls to: spark
+26/11/14 16:26:55 INFO SecurityManager: Changing modify acls to: spark
+26/11/14 16:26:55 INFO SecurityManager: Changing view acls groups to: spark
+26/11/14 16:26:55 INFO SecurityManager: Changing modify acls groups to: spark
+26/11/14 16:26:55 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/11/14 16:26:56 INFO Utils: Successfully started service 'sparkDriver' on port 42453.
+26/11/14 16:26:56 INFO SparkEnv: Registering MapOutputTracker
+26/11/14 16:26:56 INFO SparkEnv: Registering BlockManagerMaster
+26/11/14 16:26:56 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/11/14 16:26:56 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/11/14 16:26:56 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/11/14 16:26:56 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-c9391d10-4838-4bd1-bb57-20a27d3eab35
+26/11/14 16:26:56 INFO SparkEnv: Registering OutputCommitCoordinator
+26/11/14 16:26:57 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/11/14 16:26:57 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/11/14 16:26:57 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/14 16:26:57 INFO ResourceProfile: Limiting resource is cpu
+26/11/14 16:26:57 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/11/14 16:26:57 INFO SecurityManager: Changing view acls to: spark
+26/11/14 16:26:57 INFO SecurityManager: Changing modify acls to: spark
+26/11/14 16:26:57 INFO SecurityManager: Changing view acls groups to: spark
+26/11/14 16:26:57 INFO SecurityManager: Changing modify acls groups to: spark
+26/11/14 16:26:57 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/11/14 16:26:58 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/11/14 16:26:58 INFO TransportClientFactory: Successfully created connection to spark-master/172.22.0.3:7077 after 98 ms (0 ms spent in bootstraps)
+26/11/14 16:26:58 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261114162658-0000
+26/11/14 16:26:58 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 37071.
+26/11/14 16:26:58 INFO NettyBlockTransferService: Server created on spark-master:37071
+26/11/14 16:26:58 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/11/14 16:26:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 37071, None)
+26/11/14 16:26:58 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:37071 with 413.9 MiB RAM, BlockManagerId(driver, spark-master, 37071, None)
+26/11/14 16:26:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 37071, None)
+26/11/14 16:26:58 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261114162658-0000/0 on worker-20261114162431-spark-worker-7078 (spark-worker:7078) with 3 core(s)
+26/11/14 16:26:58 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 37071, None)
+26/11/14 16:26:58 INFO StandaloneSchedulerBackend: Granted executor ID app-20261114162658-0000/0 on hostPort spark-worker:7078 with 3 core(s), 1024.0 MiB RAM
+26/11/14 16:26:59 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261114162658-0000/0 is now RUNNING
+26/11/14 16:26:59 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/11/14 16:27:00 INFO StandaloneSchedulerBackend$StandaloneDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (172.22.0.2:50288) with ID 0, ResourceProfileId 0
+26/11/14 16:27:00 INFO BlockManagerMasterEndpoint: Registering block manager spark-worker:37991 with 434.4 MiB RAM, BlockManagerId(0, spark-worker, 37991, None)
+26/11/14 16:27:42 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:42 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:42 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:43 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:43 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:44 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:44 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:44 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:44 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:54 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:54 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:54 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:54 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:54 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:55 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:55 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:55 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/14 16:27:55 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.

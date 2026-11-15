@@ -1,0 +1,237 @@
+{
+  "status": "passed",
+  "run_id": "p3-20261114T162445Z-acf6c3",
+  "application_id": "app-20261114162658-0000",
+  "generated_at_utc": "2026-11-14T16:28:04.410014+00:00",
+  "input": "hdfs://namenode:8020/user/tlc/cleaned/",
+  "input_files": [
+    "hdfs://namenode:8020/user/tlc/cleaned/pickup_month=1/part-00001-fcb2b1ee-4495-4049-836f-632cef02849c.c000.snappy.parquet",
+    "hdfs://namenode:8020/user/tlc/cleaned/pickup_month=2/part-00001-fcb2b1ee-4495-4049-836f-632cef02849c.c000.snappy.parquet"
+  ],
+  "source_phase2_report": {
+    "ruleset_version": "phase2_v2_2023",
+    "generated_at_utc": "2026-11-14T11:37:53.611869+00:00",
+    "input_path": "hdfs://namenode:8020/user/tlc/raw/",
+    "output_path": "hdfs://namenode:8020/user/tlc/cleaned/",
+    "local_output_path": "file:///data/cleaned/",
+    "input_rows": 3066766,
+    "output_rows": 2993943,
+    "rows_removed_total": 72823,
+    "rules": [
+      {
+        "rule": "dropoff > pickup",
+        "rows_in": 3066766,
+        "rows_out": 3065645,
+        "rows_removed": 1121
+      },
+      {
+        "rule": "0 < trip_duration_min <= 360",
+        "rows_in": 3065645,
+        "rows_out": 3062808,
+        "rows_removed": 2837
+      },
+      {
+        "rule": "pickup_year = 2023",
+        "rows_in": 3062808,
+        "rows_out": 3062772,
+        "rows_removed": 36
+      },
+      {
+        "rule": "0 < trip_distance <= 100",
+        "rows_in": 3062772,
+        "rows_out": 3017915,
+        "rows_removed": 44857
+      },
+      {
+        "rule": "speed_mph <= 80",
+        "rows_in": 3017915,
+        "rows_out": 3016369,
+        "rows_removed": 1546
+      },
+      {
+        "rule": "fare_amount > 0",
+        "rows_in": 3016369,
+        "rows_out": 2993943,
+        "rows_removed": 22426
+      },
+      {
+        "rule": "PULocationID is not null",
+        "rows_in": 2993943,
+        "rows_out": 2993943,
+        "rows_removed": 0
+      },
+      {
+        "rule": "DOLocationID is not null",
+        "rows_in": 2993943,
+        "rows_out": 2993943,
+        "rows_removed": 0
+      }
+    ],
+    "transformations": {
+      "passenger_count": {
+        "rows_changed_to_null": 49797,
+        "zero_to_null": 49785,
+        "over_six_to_null": 12,
+        "existing_null_rows": 64139,
+        "output_null_rows": 113936,
+        "output_type": "integer"
+      },
+      "RatecodeID": {
+        "output_type": "integer",
+        "keep_99": true
+      }
+    },
+    "added_columns": [
+      "trip_duration_min",
+      "pickup_date",
+      "pickup_hour",
+      "pickup_month",
+      "is_weekend"
+    ],
+    "partitioning": "pickup_month",
+    "validation": {
+      "output_rows": 2993943,
+      "invalid_rows": 0,
+      "null_passengers": 113936,
+      "ratecode_99_rows": 11195,
+      "passed": true
+    },
+    "local_validation": {
+      "output_rows": 2993943,
+      "invalid_rows": 0,
+      "null_passengers": 113936,
+      "ratecode_99_rows": 11195,
+      "passed": true
+    }
+  },
+  "scope": "all cleaned rows in the selected Phase 2 batch; no extra month or RatecodeID filter",
+  "profile": {
+    "input_rows": 2993943,
+    "invalid_contract_rows": 0,
+    "min_pickup_date": "2023-01-01",
+    "max_pickup_date": "2023-02-01",
+    "observed_days": 32,
+    "null_passenger_rows": 113936,
+    "ratecode_99_rows": 11195,
+    "recorded_revenue_usd": "81861698.990000",
+    "total_observation_count": 2993943,
+    "negative_total_rows": 0,
+    "missing_or_invalid_tip_rows": 0,
+    "negative_tip_rows": 3,
+    "months": [
+      {
+        "pickup_month": 1,
+        "count": 2993933
+      },
+      {
+        "pickup_month": 2,
+        "count": 10
+      }
+    ],
+    "lookup_rows": 265,
+    "zone_matches": [
+      {
+        "zone_match_status": "matched",
+        "count": 2955627
+      },
+      {
+        "zone_match_status": "unknown_or_outside",
+        "count": 38316
+      }
+    ]
+  },
+  "checks": {
+    "trip_conservation": true,
+    "join_cardinality": true,
+    "revenue_conservation": true,
+    "top10_ranking": true,
+    "observed_days": true,
+    "tip_interpretation": true,
+    "csv_readback": true
+  },
+  "outputs": [
+    {
+      "filename": "01_revenue_by_hour.csv",
+      "rows": 24,
+      "columns": [
+        "pickup_hour",
+        "trip_count",
+        "recorded_revenue_usd",
+        "metered_fare_usd",
+        "total_observation_count",
+        "missing_total_count",
+        "negative_total_count"
+      ]
+    },
+    {
+      "filename": "02_top10_pickup_zones.csv",
+      "rows": 10,
+      "columns": [
+        "PULocationID",
+        "Borough",
+        "Zone",
+        "zone_match_status",
+        "trip_count",
+        "trip_share_pct"
+      ]
+    },
+    {
+      "filename": "03_tip_by_payment.csv",
+      "rows": 5,
+      "columns": [
+        "payment_type",
+        "trip_count",
+        "valid_tip_records",
+        "positive_tip_records",
+        "recorded_tip_usd",
+        "eligible_fare_usd",
+        "missing_tip_count",
+        "negative_tip_count",
+        "payment_label",
+        "tip_rate_pct",
+        "tipped_trip_pct",
+        "interpretation"
+      ]
+    },
+    {
+      "filename": "04_weekday_vs_weekend.csv",
+      "rows": 2,
+      "columns": [
+        "is_weekend",
+        "day_type",
+        "trip_count",
+        "observed_days",
+        "trips_per_observed_day",
+        "recorded_revenue_usd",
+        "avg_recorded_amount_usd",
+        "total_observation_count",
+        "avg_distance_miles",
+        "avg_duration_min"
+      ]
+    },
+    {
+      "filename": "05_avg_distance_by_zone.csv",
+      "rows": 255,
+      "columns": [
+        "PULocationID",
+        "Borough",
+        "Zone",
+        "zone_match_status",
+        "trip_count",
+        "avg_distance_miles",
+        "total_distance_miles"
+      ]
+    }
+  ],
+  "query_collect_seconds": {
+    "01_revenue_by_hour": 2.35,
+    "02_top10_pickup_zones": 2.322,
+    "03_tip_by_payment": 2.268,
+    "04_weekday_vs_weekend": 2.5,
+    "05_avg_distance_by_zone": 1.601
+  },
+  "elapsed_seconds_before_stop": 69.289,
+  "money_policy": "finite money -> decimal(28,6); missing stays null; signed totals retained; input unchanged",
+  "tip_policy": "ratio of sums on the same nonnull nonnegative-tip subset; rates only for credit card",
+  "day_policy": "observed days only; not a complete-year/month coverage claim"
+}

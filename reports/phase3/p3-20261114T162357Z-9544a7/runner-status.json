@@ -1,0 +1,11 @@
+{
+  "status": "failed",
+  "run_id": "p3-20261114T162357Z-9544a7",
+  "error": "docker-info failed:\n\nfailed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.\n",
+  "timings": {
+    "docker-info": {
+      "seconds": 1.514,
+      "exit_code": 1
+    }
+  }
+}

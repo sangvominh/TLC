@@ -1,0 +1,102 @@
+test_all_kpis_and_physical_csv (__main__.AnalyticsTest) ... /usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 41120), raddr=('127.0.0.1', 37407)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 53848), raddr=('127.0.0.1', 41635)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 36904), raddr=('127.0.0.1', 36511)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 54720), raddr=('127.0.0.1', 37819)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 45270), raddr=('127.0.0.1', 40557)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 53544), raddr=('127.0.0.1', 40247)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 45538), raddr=('127.0.0.1', 37051)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_duplicate_and_null_lookup_keys_fail (__main__.AnalyticsTest) ... ok
+test_invalid_features_and_empty_source_fail (__main__.AnalyticsTest) ... /usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 58458), raddr=('127.0.0.1', 38775)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 33632), raddr=('127.0.0.1', 41991)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_optional_nonfinite_money_and_negative_tip (__main__.AnalyticsTest) ... /usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 54488), raddr=('127.0.0.1', 41847)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 39160), raddr=('127.0.0.1', 45503)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48456), raddr=('127.0.0.1', 38459)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 42288), raddr=('127.0.0.1', 40177)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/usr/lib/python3.10/socket.py:776: ResourceWarning: unclosed <socket.socket fd=7, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=6, laddr=('127.0.0.1', 48454), raddr=('127.0.0.1', 46205)>
+  self._sock = None
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 75.691s
+
+OK
+
+STDERR:
+WARNING: Using incubator modules: jdk.incubator.vector
+26/11/14 16:25:31 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/11/14 16:25:33 INFO SparkContext: Running Spark version 4.1.4
+26/11/14 16:25:33 INFO SparkContext: OS info Linux, 7.0.14-linuxkit, amd64
+26/11/14 16:25:33 INFO SparkContext: Java version 17.0.20.1+1
+26/11/14 16:25:33 INFO ResourceUtils: ==============================================================
+26/11/14 16:25:33 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/11/14 16:25:33 INFO ResourceUtils: ==============================================================
+26/11/14 16:25:33 INFO SparkContext: Submitted application: TLC-Phase-3-Tests
+26/11/14 16:25:33 INFO SecurityManager: Changing view acls to: spark
+26/11/14 16:25:33 INFO SecurityManager: Changing modify acls to: spark
+26/11/14 16:25:33 INFO SecurityManager: Changing view acls groups to: spark
+26/11/14 16:25:33 INFO SecurityManager: Changing modify acls groups to: spark
+26/11/14 16:25:33 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/11/14 16:25:34 INFO Utils: Successfully started service 'sparkDriver' on port 42249.
+26/11/14 16:25:34 INFO SparkEnv: Registering MapOutputTracker
+26/11/14 16:25:34 INFO SparkEnv: Registering BlockManagerMaster
+26/11/14 16:25:34 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/11/14 16:25:34 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/11/14 16:25:34 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/11/14 16:25:34 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-597565d4-3a44-4472-90f5-63152ba1177e
+26/11/14 16:25:34 INFO SparkEnv: Registering OutputCommitCoordinator
+26/11/14 16:25:34 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/11/14 16:25:34 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/11/14 16:25:35 INFO SparkContext: Added file file:///opt/spark/work-dir/analyze.py at file:///opt/spark/work-dir/analyze.py with timestamp 1794673533278
+26/11/14 16:25:35 INFO Utils: Copying /opt/spark/work-dir/analyze.py to /tmp/spark-b7c47532-6699-4f8f-9b55-0ab0d518dc93/userFiles-73fd07c0-2819-4c35-b467-ff32b720364b/analyze.py
+26/11/14 16:25:35 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/14 16:25:35 INFO ResourceProfile: Limiting resource is cpu
+26/11/14 16:25:35 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/11/14 16:25:35 INFO SecurityManager: Changing view acls to: spark
+26/11/14 16:25:35 INFO SecurityManager: Changing modify acls to: spark
+26/11/14 16:25:35 INFO SecurityManager: Changing view acls groups to: spark
+26/11/14 16:25:35 INFO SecurityManager: Changing modify acls groups to: spark
+26/11/14 16:25:35 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY; RPC SSL disabled
+26/11/14 16:25:35 INFO Executor: Starting executor ID driver on host spark-master
+26/11/14 16:25:35 INFO Executor: OS info Linux, 7.0.14-linuxkit, amd64
+26/11/14 16:25:35 INFO Executor: Java version 17.0.20.1+1
+26/11/14 16:25:35 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/11/14 16:25:35 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@27d1e4e6 for default.
+26/11/14 16:25:35 INFO Executor: Fetching file:///opt/spark/work-dir/analyze.py with timestamp 1794673533278
+26/11/14 16:25:35 INFO Utils: /opt/spark/work-dir/analyze.py has been previously copied to /tmp/spark-b7c47532-6699-4f8f-9b55-0ab0d518dc93/userFiles-73fd07c0-2819-4c35-b467-ff32b720364b/analyze.py
+26/11/14 16:25:35 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 43617.
+26/11/14 16:25:35 INFO NettyBlockTransferService: Server created on spark-master:43617
+26/11/14 16:25:35 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/11/14 16:25:35 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 43617, None)
+26/11/14 16:25:35 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:43617 with 265.5 MiB RAM, BlockManagerId(driver, spark-master, 43617, None)
+26/11/14 16:25:35 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 43617, None)
+26/11/14 16:25:35 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 43617, None)

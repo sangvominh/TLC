@@ -1,0 +1,96 @@
+{
+  "ruleset_version": "phase2_v2_2023",
+  "generated_at_utc": "2026-11-14T11:37:53.611869+00:00",
+  "input_path": "hdfs://namenode:8020/user/tlc/raw/",
+  "output_path": "hdfs://namenode:8020/user/tlc/cleaned/",
+  "local_output_path": "file:///data/cleaned/",
+  "input_rows": 3066766,
+  "output_rows": 2993943,
+  "rows_removed_total": 72823,
+  "rules": [
+    {
+      "rule": "dropoff > pickup",
+      "rows_in": 3066766,
+      "rows_out": 3065645,
+      "rows_removed": 1121
+    },
+    {
+      "rule": "0 < trip_duration_min <= 360",
+      "rows_in": 3065645,
+      "rows_out": 3062808,
+      "rows_removed": 2837
+    },
+    {
+      "rule": "pickup_year = 2023",
+      "rows_in": 3062808,
+      "rows_out": 3062772,
+      "rows_removed": 36
+    },
+    {
+      "rule": "0 < trip_distance <= 100",
+      "rows_in": 3062772,
+      "rows_out": 3017915,
+      "rows_removed": 44857
+    },
+    {
+      "rule": "speed_mph <= 80",
+      "rows_in": 3017915,
+      "rows_out": 3016369,
+      "rows_removed": 1546
+    },
+    {
+      "rule": "fare_amount > 0",
+      "rows_in": 3016369,
+      "rows_out": 2993943,
+      "rows_removed": 22426
+    },
+    {
+      "rule": "PULocationID is not null",
+      "rows_in": 2993943,
+      "rows_out": 2993943,
+      "rows_removed": 0
+    },
+    {
+      "rule": "DOLocationID is not null",
+      "rows_in": 2993943,
+      "rows_out": 2993943,
+      "rows_removed": 0
+    }
+  ],
+  "transformations": {
+    "passenger_count": {
+      "rows_changed_to_null": 49797,
+      "zero_to_null": 49785,
+      "over_six_to_null": 12,
+      "existing_null_rows": 64139,
+      "output_null_rows": 113936,
+      "output_type": "integer"
+    },
+    "RatecodeID": {
+      "output_type": "integer",
+      "keep_99": true
+    }
+  },
+  "added_columns": [
+    "trip_duration_min",
+    "pickup_date",
+    "pickup_hour",
+    "pickup_month",
+    "is_weekend"
+  ],
+  "partitioning": "pickup_month",
+  "validation": {
+    "output_rows": 2993943,
+    "invalid_rows": 0,
+    "null_passengers": 113936,
+    "ratecode_99_rows": 11195,
+    "passed": true
+  },
+  "local_validation": {
+    "output_rows": 2993943,
+    "invalid_rows": 0,
+    "null_passengers": 113936,
+    "ratecode_99_rows": 11195,
+    "passed": true
+  }
+}

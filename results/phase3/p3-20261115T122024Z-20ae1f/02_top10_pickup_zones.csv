@@ -1,0 +1,11 @@
+PULocationID,Borough,Zone,zone_match_status,trip_count,trip_share_pct
+132,Queens,JFK Airport,matched,153807,5.1373
+237,Manhattan,Upper East Side South,matched,146027,4.8774
+236,Manhattan,Upper East Side North,matched,136516,4.5597
+161,Manhattan,Midtown Center,matched,133231,4.4500
+186,Manhattan,Penn Station/Madison Sq West,matched,107520,3.5913
+162,Manhattan,Midtown East,matched,103696,3.4635
+142,Manhattan,Lincoln Square East,matched,98582,3.2927
+230,Manhattan,Times Sq/Theatre District,matched,96962,3.2386
+138,Queens,LaGuardia Airport,matched,87896,2.9358
+170,Manhattan,Murray Hill,matched,86758,2.8978

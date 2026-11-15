@@ -1,0 +1,246 @@
+== Physical Plan ==
+AdaptiveSparkPlan (39)
++- == Final Plan ==
+   ResultQueryStage (31)
+   +- * Sort (30)
+      +- AQEShuffleRead (29)
+         +- ShuffleQueryStage (28), Statistics(sizeInBytes=1000.0 B, rowCount=5)
+            +- Exchange (27)
+               +- * Project (26)
+                  +- * HashAggregate (25)
+                     +- AQEShuffleRead (24)
+                        +- ShuffleQueryStage (23), Statistics(sizeInBytes=840.0 B, rowCount=7)
+                           +- Exchange (22)
+                              +- * HashAggregate (21)
+                                 +- * Project (20)
+                                    +- TableCacheQueryStage (19), Statistics(sizeInBytes=368.4 MiB, rowCount=2.99E+6)
+                                       +- InMemoryTableScan (1)
+                                             +- InMemoryRelation (2)
+                                                   +- AdaptiveSparkPlan (18)
+                                                   +- == Final Plan ==
+                                                      ResultQueryStage (12)
+                                                      +- * Project (11)
+                                                         +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                                            :- * Project (5)
+                                                            :  +- * ColumnarToRow (4)
+                                                            :     +- Scan parquet  (3)
+                                                            +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                                               +- BroadcastExchange (8)
+                                                                  +- * Filter (7)
+                                                                     +- Scan csv  (6)
+                                                   +- == Initial Plan ==
+                                                      Project (17)
+                                                      +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                                         :- Project (13)
+                                                         :  +- Scan parquet  (3)
+                                                         +- BroadcastExchange (15)
+                                                            +- Filter (14)
+                                                               +- Scan csv  (6)
++- == Initial Plan ==
+   Sort (38)
+   +- Exchange (37)
+      +- Project (36)
+         +- HashAggregate (35)
+            +- Exchange (34)
+               +- HashAggregate (33)
+                  +- Project (32)
+                     +- InMemoryTableScan (1)
+                           +- InMemoryRelation (2)
+                                 +- AdaptiveSparkPlan (18)
+                                 +- == Final Plan ==
+                                    ResultQueryStage (12)
+                                    +- * Project (11)
+                                       +- * BroadcastHashJoin LeftOuter BuildRight (10)
+                                          :- * Project (5)
+                                          :  +- * ColumnarToRow (4)
+                                          :     +- Scan parquet  (3)
+                                          +- BroadcastQueryStage (9), Statistics(sizeInBytes=1026.1 KiB, rowCount=265)
+                                             +- BroadcastExchange (8)
+                                                +- * Filter (7)
+                                                   +- Scan csv  (6)
+                                 +- == Initial Plan ==
+                                    Project (17)
+                                    +- BroadcastHashJoin LeftOuter BuildRight (16)
+                                       :- Project (13)
+                                       :  +- Scan parquet  (3)
+                                       +- BroadcastExchange (15)
+                                          +- Filter (14)
+                                             +- Scan csv  (6)
+
+
+(1) InMemoryTableScan
+Output [3]: [fare_amount#64, payment_type#11L, tip_amount#66]
+Arguments: [fare_amount#64, payment_type#11L, tip_amount#66]
+
+(2) InMemoryRelation
+Arguments: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252], StorageLevel(disk, memory, 1 replicas)
+
+(3) Scan parquet 
+Output [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+Batched: true
+Location: InMemoryFileIndex [hdfs://namenode:8020/user/tlc/cleaned]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,passenger_count:int,trip_distance:double,RatecodeID:int,PULocationID:bigint,payment_type:bigint,fare_amount:double,tip_amount:double,total_amount:double,trip_duration_min:double,pickup_date:date,pickup_hour:int,is_weekend:boolean>
+
+(4) ColumnarToRow [codegen id : 2]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(5) Project [codegen id : 2]
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(6) Scan csv 
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Batched: false
+Location: InMemoryFileIndex [file:/data/reference/taxi_zone_lookup.csv]
+PushedFilters: [IsNotNull(LocationID)]
+ReadSchema: struct<LocationID:int,Borough:string,Zone:string>
+
+(7) Filter [codegen id : 1]
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(8) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=507]
+
+(9) BroadcastQueryStage
+Output [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: 0
+
+(10) BroadcastHashJoin [codegen id : 2]
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(11) Project [codegen id : 2]
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(12) ResultQueryStage
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: 1
+
+(13) Project
+Output [14]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, CASE WHEN ((isnotnull(fare_amount#12) AND NOT isnan(fare_amount#12)) AND NOT (abs(fare_amount#12) = Infinity)) THEN try_cast(fare_amount#12 as decimal(28,6)) END AS fare_amount#64, CASE WHEN ((isnotnull(total_amount#18) AND NOT isnan(total_amount#18)) AND NOT (abs(total_amount#18) = Infinity)) THEN try_cast(total_amount#18 as decimal(28,6)) END AS total_amount#65, CASE WHEN ((isnotnull(tip_amount#15) AND NOT isnan(tip_amount#15)) AND NOT (abs(tip_amount#15) = Infinity)) THEN try_cast(tip_amount#15 as decimal(28,6)) END AS tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7]
+Input [14]: [tpep_pickup_datetime#3, passenger_count#5, trip_distance#6, RatecodeID#7, PULocationID#9L, payment_type#11L, fare_amount#12, tip_amount#15, total_amount#18, trip_duration_min#21, pickup_date#22, pickup_hour#23, is_weekend#24, pickup_month#25]
+
+(14) Filter
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Condition : isnotnull(LocationID#26)
+
+(15) BroadcastExchange
+Input [3]: [LocationID#26, Borough#27, Zone#28]
+Arguments: HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=475]
+
+(16) BroadcastHashJoin
+Left keys [1]: [PULocationID#9L]
+Right keys [1]: [cast(LocationID#26 as bigint)]
+Join type: LeftOuter
+Join condition: None
+
+(17) Project
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, coalesce(Borough#27, Unknown) AS Borough#253, coalesce(Zone#28, concat(Unmatched ID , cast(PULocationID#9L as string))) AS Zone#254, CASE WHEN isnull(LocationID#26) THEN unmatched WHEN PULocationID#9L IN (264,265) THEN unknown_or_outside ELSE matched END AS zone_match_status#252]
+Input [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, LocationID#26, Borough#27, Zone#28]
+
+(18) AdaptiveSparkPlan
+Output [17]: [tpep_pickup_datetime#3, PULocationID#9L, payment_type#11L, fare_amount#64, total_amount#65, tip_amount#66, trip_distance#6, trip_duration_min#21, pickup_date#22, pickup_hour#23, pickup_month#25, is_weekend#24, passenger_count#5, RatecodeID#7, Borough#253, Zone#254, zone_match_status#252]
+Arguments: isFinalPlan=true
+
+(19) TableCacheQueryStage
+Output [3]: [fare_amount#64, payment_type#11L, tip_amount#66]
+Arguments: 0
+
+(20) Project [codegen id : 1]
+Output [7]: [payment_type#11L, fare_amount#64, tip_amount#66, (tip_amount#66 >= 0.000000) AS _common_expr_6#1916, (tip_amount#66 > 0.000000) AS _common_expr_7#1917, isnull(tip_amount#66) AS _common_expr_2#1918, (tip_amount#66 < 0.000000) AS _common_expr_8#1919]
+Input [3]: [fare_amount#64, payment_type#11L, tip_amount#66]
+
+(21) HashAggregate [codegen id : 1]
+Input [7]: [payment_type#11L, fare_amount#64, tip_amount#66, _common_expr_6#1916, _common_expr_7#1917, _common_expr_2#1918, _common_expr_8#1919]
+Keys [1]: [payment_type#11L]
+Functions [7]: [partial_count(1), partial_count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916), partial_count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917), partial_sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END), partial_sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END), partial_count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918), partial_count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)]
+Aggregate Attributes [9]: [count#2005L, count#2006L, count#2007L, sum#2008, isEmpty#2009, sum#2010, isEmpty#2011, count#2012L, count#2013L]
+Results [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+
+(22) Exchange
+Input [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+Arguments: hashpartitioning(payment_type#11L, 4), ENSURE_REQUIREMENTS, [plan_id=929]
+
+(23) ShuffleQueryStage
+Output [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+Arguments: 1
+
+(24) AQEShuffleRead
+Input [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+Arguments: coalesced
+
+(25) HashAggregate [codegen id : 2]
+Input [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+Keys [1]: [payment_type#11L]
+Functions [7]: [count(1), count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916), count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917), sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END), sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END), count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918), count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)]
+Aggregate Attributes [7]: [count(1)#818L, count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916)#820L, count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917)#821L, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END)#822, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END)#823, count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918)#819L, count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)#824L]
+Results [8]: [payment_type#11L, count(1)#818L AS trip_count#811L, count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916)#820L AS valid_tip_records#812L, count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917)#821L AS positive_tip_records#813L, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END)#822 AS recorded_tip_usd#814, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END)#823 AS eligible_fare_usd#815, count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918)#819L AS missing_tip_count#816L, count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)#824L AS negative_tip_count#817L]
+
+(26) Project [codegen id : 2]
+Output [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, CASE WHEN (payment_type#11L = 1) THEN Credit card WHEN (payment_type#11L = 2) THEN Cash WHEN (payment_type#11L = 3) THEN No charge WHEN (payment_type#11L = 4) THEN Dispute WHEN (payment_type#11L = 5) THEN Unknown WHEN (payment_type#11L = 6) THEN Voided trip ELSE concat(Unknown code: , coalesce(cast(payment_type#11L as string), null)) END AS payment_label#807, CASE WHEN (payment_type#11L = 1) THEN round((100 * (recorded_tip_usd#814 / eligible_fare_usd#815)), 4) END AS tip_rate_pct#808, CASE WHEN (payment_type#11L = 1) THEN round((100.0 * (cast(positive_tip_records#813L as double) / cast(valid_tip_records#812L as double))), 4) END AS tipped_trip_pct#809, CASE WHEN (payment_type#11L = 1) THEN credit_card_tips_recorded WHEN (payment_type#11L = 2) THEN cash_tips_not_recorded ELSE not_comparable_to_credit_card_tips END AS interpretation#810]
+Input [8]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L]
+
+(27) Exchange
+Input [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: rangepartitioning(payment_type#11L ASC NULLS LAST, 4), ENSURE_REQUIREMENTS, [plan_id=965]
+
+(28) ShuffleQueryStage
+Output [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: 2
+
+(29) AQEShuffleRead
+Input [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: coalesced
+
+(30) Sort [codegen id : 3]
+Input [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: [payment_type#11L ASC NULLS LAST], true, 0
+
+(31) ResultQueryStage
+Output [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: 3
+
+(32) Project
+Output [7]: [payment_type#11L, fare_amount#64, tip_amount#66, (tip_amount#66 >= 0.000000) AS _common_expr_6#1916, (tip_amount#66 > 0.000000) AS _common_expr_7#1917, isnull(tip_amount#66) AS _common_expr_2#1918, (tip_amount#66 < 0.000000) AS _common_expr_8#1919]
+Input [3]: [fare_amount#64, payment_type#11L, tip_amount#66]
+
+(33) HashAggregate
+Input [7]: [payment_type#11L, fare_amount#64, tip_amount#66, _common_expr_6#1916, _common_expr_7#1917, _common_expr_2#1918, _common_expr_8#1919]
+Keys [1]: [payment_type#11L]
+Functions [7]: [partial_count(1), partial_count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916), partial_count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917), partial_sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END), partial_sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END), partial_count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918), partial_count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)]
+Aggregate Attributes [9]: [count#2005L, count#2006L, count#2007L, sum#2008, isEmpty#2009, sum#2010, isEmpty#2011, count#2012L, count#2013L]
+Results [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+
+(34) Exchange
+Input [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+Arguments: hashpartitioning(payment_type#11L, 4), ENSURE_REQUIREMENTS, [plan_id=868]
+
+(35) HashAggregate
+Input [10]: [payment_type#11L, count#2014L, count#2015L, count#2016L, sum#2017, isEmpty#2018, sum#2019, isEmpty#2020, count#2021L, count#2022L]
+Keys [1]: [payment_type#11L]
+Functions [7]: [count(1), count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916), count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917), sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END), sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END), count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918), count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)]
+Aggregate Attributes [7]: [count(1)#818L, count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916)#820L, count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917)#821L, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END)#822, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END)#823, count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918)#819L, count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)#824L]
+Results [8]: [payment_type#11L, count(1)#818L AS trip_count#811L, count(if (NOT _common_expr_6#1916) null else _common_expr_6#1916)#820L AS valid_tip_records#812L, count(if (NOT _common_expr_7#1917) null else _common_expr_7#1917)#821L AS positive_tip_records#813L, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN tip_amount#66 END)#822 AS recorded_tip_usd#814, sum(CASE WHEN (tip_amount#66 >= 0.000000) THEN fare_amount#64 END)#823 AS eligible_fare_usd#815, count(if (NOT _common_expr_2#1918) null else _common_expr_2#1918)#819L AS missing_tip_count#816L, count(if (NOT _common_expr_8#1919) null else _common_expr_8#1919)#824L AS negative_tip_count#817L]
+
+(36) Project
+Output [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, CASE WHEN (payment_type#11L = 1) THEN Credit card WHEN (payment_type#11L = 2) THEN Cash WHEN (payment_type#11L = 3) THEN No charge WHEN (payment_type#11L = 4) THEN Dispute WHEN (payment_type#11L = 5) THEN Unknown WHEN (payment_type#11L = 6) THEN Voided trip ELSE concat(Unknown code: , coalesce(cast(payment_type#11L as string), null)) END AS payment_label#807, CASE WHEN (payment_type#11L = 1) THEN round((100 * (recorded_tip_usd#814 / eligible_fare_usd#815)), 4) END AS tip_rate_pct#808, CASE WHEN (payment_type#11L = 1) THEN round((100.0 * (cast(positive_tip_records#813L as double) / cast(valid_tip_records#812L as double))), 4) END AS tipped_trip_pct#809, CASE WHEN (payment_type#11L = 1) THEN credit_card_tips_recorded WHEN (payment_type#11L = 2) THEN cash_tips_not_recorded ELSE not_comparable_to_credit_card_tips END AS interpretation#810]
+Input [8]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L]
+
+(37) Exchange
+Input [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: rangepartitioning(payment_type#11L ASC NULLS LAST, 4), ENSURE_REQUIREMENTS, [plan_id=872]
+
+(38) Sort
+Input [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: [payment_type#11L ASC NULLS LAST], true, 0
+
+(39) AdaptiveSparkPlan
+Output [12]: [payment_type#11L, trip_count#811L, valid_tip_records#812L, positive_tip_records#813L, recorded_tip_usd#814, eligible_fare_usd#815, missing_tip_count#816L, negative_tip_count#817L, payment_label#807, tip_rate_pct#808, tipped_trip_pct#809, interpretation#810]
+Arguments: isFinalPlan=true
+
+

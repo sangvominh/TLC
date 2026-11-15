@@ -1,0 +1,6 @@
+{
+  "master": "ALIVE",
+  "alive_workers": 1,
+  "live_datanodes": 1,
+  "safemode": ""
+}

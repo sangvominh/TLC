@@ -1,0 +1,32 @@
+[
+  {
+    "filename": "01_revenue_by_hour.csv",
+    "rows": 24,
+    "bytes": 1316,
+    "sha256": "0ab3b1ae4426397894392a65e50601e400ed2e3d5394ac0c3d436bd42b508459"
+  },
+  {
+    "filename": "02_top10_pickup_zones.csv",
+    "rows": 10,
+    "bytes": 609,
+    "sha256": "47f6f9250d159cc01e5b66286edb9e87f15b61000c51ce9570d7411ce502eff4"
+  },
+  {
+    "filename": "03_tip_by_payment.csv",
+    "rows": 5,
+    "bytes": 673,
+    "sha256": "11cfd9a9288962f4db6f3c93e69feeea9ad2800dd161c51c9ade59d6f97bf976"
+  },
+  {
+    "filename": "04_weekday_vs_weekend.csv",
+    "rows": 2,
+    "bytes": 334,
+    "sha256": "535863383f2415cd472f4f72751d47b0b9de3dbcc91c65aa185ab5eaa9ce5603"
+  },
+  {
+    "filename": "05_avg_distance_by_zone.csv",
+    "rows": 255,
+    "bytes": 16173,
+    "sha256": "b4d2f56be889ce0fc83f6ab386188f62656159354464c9cbab80c13d118274de"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python",
+    "run.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 118.619,
+  "log": "C:\\Users\\PC\\bigdata\\.tools\\runtime-main-20261114\\phase2-clean.log"
+}

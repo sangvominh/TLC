@@ -1,0 +1,81 @@
+{
+  "url": "spark://spark-master:7077",
+  "workers": [
+    {
+      "id": "worker-20261114113220-spark-worker-7078",
+      "host": "spark-worker",
+      "port": 7078,
+      "webuiaddress": "http://spark-worker:8081",
+      "cores": 3,
+      "coresused": 0,
+      "coresfree": 3,
+      "memory": 3072,
+      "memoryused": 0,
+      "memoryfree": 3072,
+      "resources": {},
+      "resourcesused": {},
+      "resourcesfree": {},
+      "state": "ALIVE",
+      "lastheartbeat": 1794656375257
+    }
+  ],
+  "aliveworkers": 1,
+  "cores": 3,
+  "coresused": 0,
+  "memory": 3072,
+  "memoryused": 0,
+  "resources": [
+    {}
+  ],
+  "resourcesused": [
+    {}
+  ],
+  "activeapps": [],
+  "completedapps": [
+    {
+      "id": "app-20261114113526-0000",
+      "starttime": 1794656126026,
+      "name": "TLC-Test",
+      "cores": 3,
+      "user": "spark",
+      "memoryperexecutor": 1024,
+      "memoryperslave": 1024,
+      "resourcesperexecutor": [],
+      "resourcesperslave": [],
+      "submitdate": "Sat Nov 14 11:35:26 UTC 2026",
+      "state": "FINISHED",
+      "duration": 22304
+    },
+    {
+      "id": "app-20261114113610-0001",
+      "starttime": 1794656170613,
+      "name": "TLC-Phase-2-Transformation",
+      "cores": 3,
+      "user": "spark",
+      "memoryperexecutor": 1024,
+      "memoryperslave": 1024,
+      "resourcesperexecutor": [],
+      "resourcesperslave": [],
+      "submitdate": "Sat Nov 14 11:36:10 UTC 2026",
+      "state": "FINISHED",
+      "duration": 106103
+    },
+    {
+      "id": "app-20261114113830-0002",
+      "starttime": 1794656310832,
+      "name": "TLC-Verify-Cleaned",
+      "cores": 3,
+      "user": "spark",
+      "memoryperexecutor": 1024,
+      "memoryperslave": 1024,
+      "resourcesperexecutor": [],
+      "resourcesperslave": [],
+      "submitdate": "Sat Nov 14 11:38:30 UTC 2026",
+      "state": "FINISHED",
+      "duration": 33984
+    }
+  ],
+  "activedrivers": [],
+  "completeddrivers": [],
+  "status": "ALIVE"
+}
