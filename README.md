@@ -109,3 +109,21 @@ Dữ liệu trong HDFS được lưu riêng với thư mục trên máy cá nhâ
 - `data/cleaned/`: dữ liệu Parquet đã làm sạch; Phase 3 dùng dữ liệu này.
 - `src/verify.py`: kiểm tra dữ liệu đầu ra của Phase 2.
 - `run.py`: chạy các tác vụ `test`, `clean` và `verify`.
+
+## 5. Phase 3: tính KPI
+
+Sau khi có `data/cleaned/` từ Phase 2, chạy:
+
+```bash
+python3 run.py kpi
+```
+
+Kết quả được ghi đè trong `data/kpi/` dưới dạng 5 file CSV có tiêu đề:
+
+- `revenue_by_hour.csv`: số chuyến và tổng `total_amount` theo giờ đón.
+- `top_10_pickup_zones.csv`: 10 vùng đón nhiều chuyến nhất.
+- `tip_rate_by_payment.csv`: tổng tip chia tổng `fare_amount` theo phương thức thanh toán, tính phần trăm. Chỉ các chuyến có tip không âm và cước dương được dùng trong phép chia; số chuyến hợp lệ được ghi riêng. Tip tiền mặt có thể không được ghi nhận.
+- `weekday_vs_weekend.csv`: số chuyến, tổng doanh thu, doanh thu trung bình mỗi chuyến và quãng đường trung bình; cuối tuần gồm thứ Bảy và Chủ nhật. Tổng phụ thuộc số ngày có trong dữ liệu.
+- `avg_distance_by_zone.csv`: quãng đường trung bình theo vùng đón, đơn vị dặm.
+
+Tên vùng và borough lấy từ `data/reference/taxi_zone_lookup.csv` của TLC. Các mã không khớp được giữ với tên `Unknown`. Mọi chuyến đã làm sạch, kể cả `RatecodeID = 99`, được tính. Doanh thu là `total_amount` (bao gồm tip và phụ phí), không phải lợi nhuận. Dữ liệu sạch đã có trong repo chỉ phản ánh những tháng được xử lý; chạy Phase 2 với dữ liệu mong muốn trước khi tính KPI. Kết quả là dữ liệu sinh ra và không được đưa vào Git.

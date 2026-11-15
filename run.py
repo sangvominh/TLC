@@ -8,7 +8,7 @@ def main():
     # Chọn clean, test hoặc verify; mặc định là clean.
     parser = argparse.ArgumentParser(description="Chạy Spark trong Docker.")
     parser.add_argument("task", nargs="?", default="clean",
-                        choices=["clean", "test", "verify"], help="Bước cần chạy (mặc định: clean).")
+                        choices=["clean", "test", "verify", "kpi"], help="Bước cần chạy (mặc định: clean).")
     args = parser.parse_args()  # Ví dụ: python run.py verify → task = "verify".
     # Tạo lệnh chạy file tương ứng trong container Spark.
     command = [
