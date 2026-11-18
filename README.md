@@ -109,3 +109,23 @@ Dữ liệu trong HDFS được lưu riêng với thư mục trên máy cá nhâ
 - `data/cleaned/`: dữ liệu Parquet đã làm sạch; Phase 3 dùng dữ liệu này.
 - `src/verify.py`: kiểm tra dữ liệu đầu ra của Phase 2.
 - `run.py`: chạy các tác vụ `test`, `clean` và `verify`.
+
+## 5. Bàn giao Phase 3 → Phase 4, 5
+
+Phase 3 nhận dữ liệu đã làm sạch từ Phase 2 để phân tích. Kết quả bàn giao cho
+Phase 4 và Phase 5 nên lấy từ cùng một bộ dữ liệu Parquet đã được kiểm chứng:
+
+- **Nguồn dữ liệu chuẩn:** `data/cleaned/` trên máy cá nhân hoặc
+  `/user/tlc/cleaned/` trên HDFS. Dùng HDFS khi xử lý bằng Spark trong Docker.
+- **Điều kiện sử dụng:** chạy `python run.py verify` và chỉ tiếp tục khi kiểm
+  chứng báo thành công. Mỗi lần chạy `python run.py` sẽ ghi đè dữ liệu sạch cũ.
+- **Các cột hỗ trợ phân tích:** `trip_duration_min`, `pickup_date`,
+  `pickup_hour`, `pickup_month`, `is_weekend`; dữ liệu chuyến đi gốc đã được
+  lọc và chuẩn hóa vẫn được giữ trong Parquet.
+- **Báo cáo chất lượng:** `/user/tlc/reports/latest/` trên HDFS; báo cáo gồm
+  số dòng đầu vào/đầu ra, số dòng bị loại theo quy tắc, các chuyển đổi và kết
+  quả kiểm chứng. Lưu hoặc trích xuất báo cáo này cùng kết quả phân tích để
+  truy vết phiên dữ liệu đã dùng.
+- **Nguyên tắc dùng chung:** Phase 4 và Phase 5 cần ghi rõ nguồn dữ liệu, thời
+  điểm chạy và các bộ lọc/phép biến đổi bổ sung; không sửa trực tiếp dữ liệu
+  trong `data/cleaned/` hoặc `/user/tlc/cleaned/`.
