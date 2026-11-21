@@ -129,3 +129,72 @@ Phase 4 và Phase 5 nên lấy từ cùng một bộ dữ liệu Parquet đã đ
 - **Nguyên tắc dùng chung:** Phase 4 và Phase 5 cần ghi rõ nguồn dữ liệu, thời
   điểm chạy và các bộ lọc/phép biến đổi bổ sung; không sửa trực tiếp dữ liệu
   trong `data/cleaned/` hoặc `/user/tlc/cleaned/`.
+
+## 6. Phase 4 — Đo lường và bằng chứng
+
+### Chạy benchmark
+
+Mở Docker Desktop và terminal tại thư mục gốc dự án, rồi chạy
+
+```bash
+python run.py benchmark
+```
+
+Chương trình tự chuẩn bị thư viện, đo file tháng `data/raw/yellow_tripdata_2023-01.parquet`
+và lưu kết quả vào `data/phase4/`. Lần cài thư viện cần Internet.
+
+### Cách làm
+
+1. **Đo Pandas** đọc file Parquet, đếm số dòng và ghi thời gian.
+2. **Đo Spark** đọc cùng file, dùng `persist()` và `count()` để nạp đủ cột rồi ghi thời gian.
+3. **So sánh** kiểm tra số dòng, tên cột và tổng tiền khớp nhau, sau đó tạo bảng CSV.
+
+Mỗi công cụ chạy thử một lần rồi đo 3 lần. Bảng so sánh có thời gian trung bình
+và trung vị (giá trị ở giữa khi sắp xếp các lần đo).
+
+Có thể chọn file, số lần đo và số giây giữ UI bằng lệnh
+
+```bash
+python run.py benchmark --input data/raw/yellow_tripdata_2023-01.parquet --repeats 3 --hold-ui 600
+```
+
+### Chụp Spark UI
+
+Khi terminal báo đo xong, mở [Spark UI](http://localhost:4040) và chụp ba tab
+
+- **Jobs** xem thời gian chạy, lưu `screenshots/01_jobs.jpg`.
+- **Stages** xem số task, lưu `screenshots/02_stages.jpg`.
+- **Storage** xem số partition, lưu `screenshots/03_storage.jpg`.
+
+Lưu ảnh trong `data/phase4/`. UI mở thêm 10 phút sau khi đo, hoặc theo `--hold-ui`.
+Chụp ảnh lại khi chạy một phiên đo mới. Để đóng sớm, mở terminal khác và chạy
+
+```bash
+python -c "from pathlib import Path; Path('data/phase4/release_ui').touch()"
+```
+
+### File bàn giao
+
+| File | Nội dung |
+|---|---|
+| `data/phase4/benchmark_runs.csv` | Thời gian từng lần, gồm lần làm nóng, số dòng và partition |
+| `data/phase4/comparison.csv` | Trung bình, trung vị, min, max và tỷ số Pandas/Spark |
+| `data/phase4/report.md` | Bảng so sánh, cách đo và nhận xét theo số liệu thực tế |
+| `data/phase4/environment.json` | SHA-256 file, phiên bản thư viện và giới hạn CPU/RAM container |
+| `data/phase4/pandas.json`, `spark.json` | Kết quả gốc của hai script |
+| `data/phase4/spark_ui.json`, `spark.log` | API Spark UI và log để truy vết job/stage/task |
+| `data/phase4/screenshots/` | Ảnh chụp Spark UI của phiên đo |
+
+### Chức năng source
+
+- `scripts/benchmark.py` gọi hai script đo rồi tạo bảng so sánh và báo cáo.
+- `src/benchmark_pandas.py` đo thời gian Pandas đọc file trong Worker.
+- `src/benchmark_spark.py` đo Spark và giữ UI để chụp bằng chứng.
+
+Pandas chạy trong Worker với giới hạn 3 CPU và 4 GiB RAM. Spark dùng executor
+trên Worker và thêm Driver trên Master, có giới hạn 0,5 CPU và 2 GiB RAM.
+Thời gian đo không gồm cài thư viện, import và khởi tạo SparkSession.
+Khởi tạo SparkSession được ghi riêng trong `spark.json` và báo cáo.
+Chạy Pandas trước Spark và giữ cache hệ điều hành sau lần chạy thử.
+Tỷ số Pandas/Spark lớn hơn 1 nghĩa là Spark nhanh hơn.
+Với file nhỏ, Pandas có thể nhanh hơn do Spark tốn thời gian điều phối và cache.

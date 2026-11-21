@@ -1,0 +1,31 @@
+{
+  "containers": [
+    {
+      "name": "/spark-worker",
+      "image": "apache/spark:4.1.4-scala2.13-java17-python3-ubuntu",
+      "image_id": "sha256:c67c7b23fc68fad1d7fd175fa22680722635feccea68dec97afb9f3ff9deeda5",
+      "cpus": 3.0,
+      "memory_bytes": 4294967296
+    },
+    {
+      "name": "/spark-master",
+      "image": "apache/spark:4.1.4-scala2.13-java17-python3-ubuntu",
+      "image_id": "sha256:c67c7b23fc68fad1d7fd175fa22680722635feccea68dec97afb9f3ff9deeda5",
+      "cpus": 0.5,
+      "memory_bytes": 2147483648
+    }
+  ],
+  "generated_at_utc": "2026-11-20T14:58:17.993688+00:00",
+  "input_sha256": "32df6f67578fa86c484a6b5ef23a5281992ff085521082340b0f9e5889e9a572",
+  "input_bytes": 47673370,
+  "versions": {
+    "pandas": {
+      "pandas": "2.2.3",
+      "pyarrow": "18.1.0",
+      "numpy": "2.2.6"
+    },
+    "spark": {
+      "spark": "4.1.4"
+    }
+  }
+}

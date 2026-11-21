@@ -1,0 +1,163 @@
+{
+  "engine": "Spark",
+  "versions": {
+    "spark": "4.1.4"
+  },
+  "input": "/data/raw/yellow_tripdata_2023-01.parquet",
+  "file_bytes": 47673370,
+  "startup_seconds": 14.28880595999999,
+  "app_id": "app-20261120031424-0001",
+  "ui_url": "http://spark-master:4040",
+  "master": "spark://spark-master:7077",
+  "storage_level": "MEMORY_AND_DISK",
+  "records": [
+    {
+      "trial": 0,
+      "warmup": true,
+      "seconds": 16.498750005999682,
+      "rows": 3066766,
+      "columns": [
+        "VendorID",
+        "tpep_pickup_datetime",
+        "tpep_dropoff_datetime",
+        "passenger_count",
+        "trip_distance",
+        "RatecodeID",
+        "store_and_fwd_flag",
+        "PULocationID",
+        "DOLocationID",
+        "payment_type",
+        "fare_amount",
+        "extra",
+        "mta_tax",
+        "tip_amount",
+        "tolls_amount",
+        "improvement_surcharge",
+        "total_amount",
+        "congestion_surcharge",
+        "airport_fee"
+      ],
+      "partitions": 3,
+      "total_amount_sum": 82865192.22,
+      "job_group": "phase4-warmup-0",
+      "job_ids": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "completed_tasks": 8
+    },
+    {
+      "trial": 1,
+      "warmup": false,
+      "seconds": 7.321390578000319,
+      "rows": 3066766,
+      "columns": [
+        "VendorID",
+        "tpep_pickup_datetime",
+        "tpep_dropoff_datetime",
+        "passenger_count",
+        "trip_distance",
+        "RatecodeID",
+        "store_and_fwd_flag",
+        "PULocationID",
+        "DOLocationID",
+        "payment_type",
+        "fare_amount",
+        "extra",
+        "mta_tax",
+        "tip_amount",
+        "tolls_amount",
+        "improvement_surcharge",
+        "total_amount",
+        "congestion_surcharge",
+        "airport_fee"
+      ],
+      "partitions": 3,
+      "total_amount_sum": 82865192.22,
+      "job_group": "phase4-measured-1",
+      "job_ids": [
+        9,
+        8,
+        7,
+        6
+      ],
+      "completed_tasks": 8
+    },
+    {
+      "trial": 2,
+      "warmup": false,
+      "seconds": 6.514000873000441,
+      "rows": 3066766,
+      "columns": [
+        "VendorID",
+        "tpep_pickup_datetime",
+        "tpep_dropoff_datetime",
+        "passenger_count",
+        "trip_distance",
+        "RatecodeID",
+        "store_and_fwd_flag",
+        "PULocationID",
+        "DOLocationID",
+        "payment_type",
+        "fare_amount",
+        "extra",
+        "mta_tax",
+        "tip_amount",
+        "tolls_amount",
+        "improvement_surcharge",
+        "total_amount",
+        "congestion_surcharge",
+        "airport_fee"
+      ],
+      "partitions": 3,
+      "total_amount_sum": 82865192.22,
+      "job_group": "phase4-measured-2",
+      "job_ids": [
+        15,
+        14,
+        13,
+        12
+      ],
+      "completed_tasks": 8
+    },
+    {
+      "trial": 3,
+      "warmup": false,
+      "seconds": 6.0187600959998235,
+      "rows": 3066766,
+      "columns": [
+        "VendorID",
+        "tpep_pickup_datetime",
+        "tpep_dropoff_datetime",
+        "passenger_count",
+        "trip_distance",
+        "RatecodeID",
+        "store_and_fwd_flag",
+        "PULocationID",
+        "DOLocationID",
+        "payment_type",
+        "fare_amount",
+        "extra",
+        "mta_tax",
+        "tip_amount",
+        "tolls_amount",
+        "improvement_surcharge",
+        "total_amount",
+        "congestion_surcharge",
+        "airport_fee"
+      ],
+      "partitions": 3,
+      "total_amount_sum": 82865192.22,
+      "job_group": "phase4-measured-3",
+      "job_ids": [
+        21,
+        20,
+        19,
+        18
+      ],
+      "completed_tasks": 8
+    }
+  ]
+}
